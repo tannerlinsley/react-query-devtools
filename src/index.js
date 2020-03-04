@@ -146,8 +146,6 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
     const [activeQueryHash, setActiveQueryHash] = React.useState(null)
 
-    console.log(sortFn)
-
     const queries = React.useMemo(() => {
       const sorted = [...unsortedQueries].sort(sortFn)
 
@@ -157,8 +155,6 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
       return sorted
     }, [sortDesc, sortFn, unsortedQueries])
-
-    console.log(queries.map(d => d.queryHash))
 
     const [activeQuery, activeQueryJson] = React.useMemo(() => {
       const activeQuery = queries.find(
