@@ -1,6 +1,6 @@
 {
   "name": "react-query-devtools",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Devtools for React Query",
   "author": "tannerlinsley",
   "license": "MIT",
@@ -24,9 +24,6 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "react-codemirror": "^1.0.0"
-  },
   "peerDependencies": {
     "react": "^16.6.3",
     "react-query": "^1.0.0"
@@ -69,7 +66,6 @@
     "rollup-plugin-jscc": "^1.0.0",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.2",
-    "rollup-plugin-postcss": "^2.1.1",
     "rollup-plugin-prettier": "^0.6.0",
     "rollup-plugin-size": "^0.2.2",
     "rollup-plugin-size-snapshot": "^0.10.0",

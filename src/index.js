@@ -1,16 +1,12 @@
 import React from 'react'
 import { queryCache } from 'react-query'
 import useLocalStorage from './useLocalStorage'
-import CodeMirror from 'react-codemirror'
-import 'codemirror/mode/javascript/javascript.js'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/material.css'
 
 //
 
 import pkg from '../package.json'
 import { Panel, QueryKeys, QueryKey, Button, Code } from './styledComponents'
-import { ThemeProvider, useTheme } from './theme'
+import { ThemeProvider } from './theme'
 import { getQueryStatusLabel, getQueryStatusColor } from './utils'
 import Explorer from './Explorer'
 
@@ -33,9 +29,14 @@ export function ReactQueryDevtools({ initialIsOpen }) {
     'reactQueryDevtoolsOpen',
     initialIsOpen
   )
+  const [isResolvedOpen, setIsResolvedOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsResolvedOpen(isOpen)
+  }, [isOpen, isResolvedOpen])
 
   React.useLayoutEffect(() => {
-    if (isOpen) {
+    if (isResolvedOpen) {
       const previousValue = rootRef.current?.parentElement.style.paddingBottom
 
       const run = () => {
@@ -52,11 +53,11 @@ export function ReactQueryDevtools({ initialIsOpen }) {
         rootRef.current.parentElement.style.paddingBottom = previousValue
       }
     }
-  }, [isOpen])
+  }, [isResolvedOpen])
 
   return (
     <div ref={rootRef} className="ReactQueryDevtools">
-      {isOpen ? (
+      {isResolvedOpen ? (
         <ThemeProvider theme={theme}>
           <ReactQueryDevtoolsPanel
             ref={panelRef}
@@ -120,8 +121,6 @@ const sortFns = {
 
 export const ReactQueryDevtoolsPanel = React.forwardRef(
   function ReactQueryDevtoolsPanel(props, ref) {
-    const [isEditingQuery, setIsEditingQuery] = React.useState(false)
-
     const [sort, setSort] = useLocalStorage(
       'reactQueryDevtoolsSortFn',
       Object.keys(sortFns)[0]
@@ -183,12 +182,6 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         setUnsortedQueries(Object.values(queryCache.queries))
       })
     }, [sort, sortFn, sortDesc])
-
-    React.useEffect(() => {
-      if (activeQueryHash) {
-        setIsEditingQuery(false)
-      }
-    }, [activeQueryHash])
 
     React.useEffect(() => {
       if (activeQueryHash && !activeQuery) {
@@ -394,101 +387,86 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     {getQueryStatusLabel(activeQuery)}
                   </span>
                 </div>
-                {isEditingQuery ? (
-                  <QueryEditor
-                    query={activeQuery}
-                    onClose={() => setIsEditingQuery(false)}
-                  />
-                ) : (
+                <div
+                  style={{
+                    flex: '1',
+                    overflow: 'auto',
+                  }}
+                >
                   <div
                     style={{
-                      flex: '1',
-                      overflow: 'auto',
+                      background: theme.backgroundAlt,
+                      padding: '.5rem',
                     }}
                   >
-                    <div
-                      style={{
-                        background: theme.backgroundAlt,
-                        padding: '.5rem',
-                      }}
-                    >
-                      Actions
-                    </div>
-                    <div
-                      style={{
-                        padding: '1rem',
-                      }}
-                    >
-                      <Button
-                        onClick={() => activeQuery.fetch()}
-                        disabled={activeQuery.state.isFetching}
-                        style={{
-                          background: theme.active,
-                        }}
-                      >
-                        Refetch
-                      </Button>{' '}
-                      <Button
-                        onClick={() => {
-                          setIsEditingQuery(old => !old)
-                        }}
-                        disabled={isEditingQuery}
-                      >
-                        Edit Data
-                      </Button>{' '}
-                      <Button
-                        onClick={() =>
-                          queryCache.removeQueries(q => q === activeQuery)
-                        }
-                        style={{
-                          background: theme.danger,
-                        }}
-                      >
-                        Remove
-                      </Button>{' '}
-                    </div>
-                    <div
-                      style={{
-                        background: theme.backgroundAlt,
-                        padding: '.5rem',
-                      }}
-                    >
-                      Data Explorer
-                    </div>
-                    <div
-                      style={{
-                        padding: '.5rem',
-                      }}
-                    >
-                      <Explorer
-                        label="Data"
-                        value={activeQueryJson.state.data}
-                        defaultExpanded={{}}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        background: theme.backgroundAlt,
-                        padding: '.5rem',
-                      }}
-                    >
-                      Query Explorer
-                    </div>
-                    <div
-                      style={{
-                        padding: '.5rem',
-                      }}
-                    >
-                      <Explorer
-                        label="Query"
-                        value={activeQueryJson}
-                        defaultExpanded={{
-                          queryKey: true,
-                        }}
-                      />
-                    </div>
+                    Actions
                   </div>
-                )}
+                  <div
+                    style={{
+                      padding: '1rem',
+                    }}
+                  >
+                    <Button
+                      onClick={() => activeQuery.fetch()}
+                      disabled={activeQuery.state.isFetching}
+                      style={{
+                        background: theme.active,
+                      }}
+                    >
+                      Refetch
+                    </Button>{' '}
+                    <Button
+                      onClick={() =>
+                        queryCache.removeQueries(q => q === activeQuery)
+                      }
+                      style={{
+                        background: theme.danger,
+                      }}
+                    >
+                      Remove
+                    </Button>{' '}
+                  </div>
+                  <div
+                    style={{
+                      background: theme.backgroundAlt,
+                      padding: '.5rem',
+                    }}
+                  >
+                    Data Explorer
+                  </div>
+                  <div
+                    style={{
+                      padding: '.5rem',
+                    }}
+                  >
+                    <Explorer
+                      label="Data"
+                      value={activeQueryJson.state.data}
+                      defaultExpanded={{}}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      background: theme.backgroundAlt,
+                      padding: '.5rem',
+                    }}
+                  >
+                    Query Explorer
+                  </div>
+                  <div
+                    style={{
+                      padding: '.5rem',
+                    }}
+                  >
+                    <Explorer
+                      label="Query"
+                      value={activeQueryJson}
+                      defaultExpanded={{
+                        queryKey: true,
+                      }}
+                    />
+                  </div>
+                </div>
               </>
             ) : (
               <div
@@ -505,51 +483,3 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
     )
   }
 )
-
-function QueryEditor({ query, onClose }) {
-  const theme = useTheme()
-  const [editedData, setEditedData] = React.useState('')
-
-  return (
-    <>
-      <div
-        style={{
-          flex: '1',
-          marginBottom: '.5rem',
-          overflow: 'hidden',
-        }}
-      >
-        <CodeMirror
-          value={JSON.stringify(query.state.data, null, 2)}
-          onChange={setEditedData}
-          options={{
-            mode: 'application/json',
-            lineNumbers: true,
-            theme: 'material',
-          }}
-        />
-      </div>
-      <div>
-        <Button
-          onClick={() => {
-            query.setData(JSON.parse(editedData))
-            onClose()
-          }}
-          style={{
-            background: theme.success,
-          }}
-        >
-          Save
-        </Button>{' '}
-        <Button
-          onClick={() => onClose()}
-          style={{
-            background: theme.danger,
-          }}
-        >
-          Cancel
-        </Button>
-      </div>
-    </>
-  )
-}

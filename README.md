@@ -27,7 +27,7 @@ Enjoy this library? Try them all! [React Table](https://github.com/tannerlinsley
 
 - View the cache in realtime
 - Inspect core query objects and query data payloads
-- Manually refetch, update and remove queries
+- Manually refetch & remove queries
 
 # Documentation
 

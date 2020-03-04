@@ -1,37 +1,18 @@
 import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import size from 'rollup-plugin-size'
-import postcss from 'rollup-plugin-postcss'
 import json from '@rollup/plugin-json'
+import externalDeps from 'rollup-plugin-peer-deps-external'
 
-const external = [
-  'react',
-  'react-query',
-  'react-json-tree',
-  'react-codemirror',
-  'codemirror/lib/codemirror.css',
-  'codemirror/mode/javascript/javascript.js',
-  'codemirror/theme/material.css',
-]
+const external = ['react', 'react-query', 'react-json-tree']
 
 const globals = {
   react: 'React',
   'react-query': 'ReactQuery',
   'react-json-tree': 'JSONTree',
-  'react-codemirror': 'CodeMirror',
 }
 
 export default [
-  // {
-  //   input: 'src/index.js',
-  //   output: {
-  //     file: 'dist/react-query-devtools.es.js',
-  //     format: 'esm',
-  //     sourcemap: true,
-  //   },
-  //   external,
-  //   plugins: [babel(), postcss()],
-  // },
   {
     input: 'src/index.js',
     output: {
@@ -42,7 +23,7 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(), json(), postcss()],
+    plugins: [babel(), externalDeps(), json()],
   },
   {
     input: 'src/index.js',
@@ -57,6 +38,7 @@ export default [
     plugins: [
       babel(),
       json(),
+      externalDeps(),
       terser(),
       size({
         writeFile: false,
