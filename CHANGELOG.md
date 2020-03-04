@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7
+
+- Buttons now use a pointer cursor style
+
 ## 1.0.6
 
 - Removes Codemirror Editing until a non-css-file based solution can be found
