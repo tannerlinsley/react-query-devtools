@@ -51,6 +51,10 @@ $ yarn add react-query-devtools
 
 # Usage
 
+By default, React Query Devtools are not imported and used when `process.env.NODE_ENV === 'production'`, so you don't need to worry about excluding them during a production build.
+
+If you want to use the devtools in production, you can manually import them (preferably asynchronously code-split) by importing the `dist/react-query-devtools.production.min.js` file directly.
+
 ## Floating Mode
 
 Floating Mode will mount the devtools as a fixed, floating element in your app and provide a toggle in the corner of the screen you can use to show and hide the devtools. This toggle state will be stored and remembered in localStorage across reloads.
