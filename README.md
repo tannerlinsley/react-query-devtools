@@ -1,10 +1,14 @@
-![React Query Header](https://github.com/tannerlinsley/react-query/raw/master/media/header.png)
+<a href='https://github.com/tannerlinsley/react-query'>
+  <img src='https://github.com/tannerlinsley/react-query/raw/master/media/header.png' />
+</a>
 
 ![React Query Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/screenshot.png)
 
-<img src='https://github.com/tannerlinsley/react-query/raw/master/media/logo.png' width='300'/>
+<a href='https://github.com/tannerlinsley/react-query'>
+  <img src='https://github.com/tannerlinsley/react-query/raw/master/media/logo.png' width='300'/>
+</a>
 
-Devtools for React Query
+Devtools for [React Query](https://github.com/tannerlinsley/react-query)
 
 <!-- <a href="https://travis-ci.org/tannerlinsley/react-query" target="\_parent">
   <img alt="" src="https://travis-ci.org/tannerlinsley/react-query.svg?branch=master" />
@@ -21,7 +25,7 @@ Devtools for React Query
   <img alt="" src="https://img.shields.io/twitter/follow/tannerlinsley.svg?style=social&label=Follow" />
 </a>
 
-Enjoy this library? Try them all! [React Table](https://github.com/tannerlinsley/react-table), [React Form](https://github.com/tannerlinsley/react-form), [React Charts](https://github.com/tannerlinsley/react-charts)
+Enjoy this library? Try them all! [React Query](https://github.com/tannerlinsley/react-query), [React Table](https://github.com/tannerlinsley/react-table), [React Form](https://github.com/tannerlinsley/react-form), [React Charts](https://github.com/tannerlinsley/react-charts)
 
 ## Quick Features
 
