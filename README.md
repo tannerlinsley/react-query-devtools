@@ -1,5 +1,7 @@
 ![React Query Header](https://github.com/tannerlinsley/react-query/raw/master/media/header.png)
 
+![React Query Header](https://github.com/tannerlinsley/react-query-devtols/raw/master/media/screenshot.png)
+
 <img src='https://github.com/tannerlinsley/react-query/raw/master/media/logo.png' width='300'/>
 
 Devtools for React Query
@@ -31,7 +33,6 @@ Enjoy this library? Try them all! [React Table](https://github.com/tannerlinsley
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Installation](#installation)
 - [Usage](#usage)
