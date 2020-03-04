@@ -1,6 +1,6 @@
 ![React Query Header](https://github.com/tannerlinsley/react-query/raw/master/media/header.png)
 
-![React Query Header](https://github.com/tannerlinsley/react-query-devtols/raw/master/media/screenshot.png)
+![React Query Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/screenshot.png)
 
 <img src='https://github.com/tannerlinsley/react-query/raw/master/media/logo.png' width='300'/>
 
