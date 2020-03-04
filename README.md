@@ -44,9 +44,9 @@ Enjoy this library? Try them all! [React Table](https://github.com/tannerlinsley
 # Installation
 
 ```bash
-$ npm i --save react-query
+$ npm i --save react-query-devtools
 # or
-$ yarn add react-query
+$ yarn add react-query-devtools
 ```
 
 # Usage
