@@ -94,7 +94,7 @@ export function ReactQueryDevtools({ initialIsOpen }) {
             fontSize: '1.5rem',
             margin: '.5rem',
             cursor: 'pointer',
-            textShadow: '0 0 10px black',
+            textShadow: 'rgba(0,0,0,0.4) 0px 5px 10px',
           }}
         >
           <span>🎛</span>
