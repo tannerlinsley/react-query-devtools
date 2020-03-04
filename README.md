@@ -32,6 +32,7 @@ Enjoy this library? Try them all! [React Table](https://github.com/tannerlinsley
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Installation](#installation)
 - [Usage](#usage)
   - [Floating Mode](#floating-mode)
@@ -84,11 +85,7 @@ function App() {
   return (
     <>
       {/* The rest of your application */}
-      <ReactQueryDevtools
-        initialIsOpen={false}
-        style={styles}
-        className={className}
-      />
+      <ReactQueryDevtools style={styles} className={className} />
     </>
   )
 }
@@ -96,8 +93,6 @@ function App() {
 
 ### Options
 
-- `initialIsOpen: Boolean`
-  - Set this `true` if you want the dev tools to default to being open
 - `style: StyleObject`
   - The standard React style object used to style a component with inline styles
 - `className: string`
