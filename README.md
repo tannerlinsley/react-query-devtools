@@ -1,12 +1,4 @@
-<a href='https://github.com/tannerlinsley/react-query'>
-  <img src='https://github.com/tannerlinsley/react-query/raw/master/media/header.png' />
-</a>
-
-![React Query Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/screenshot.png)
-
-<a href='https://github.com/tannerlinsley/react-query'>
-  <img src='https://github.com/tannerlinsley/react-query/raw/master/media/logo.png' width='300'/>
-</a>
+![React Query Devtools Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/screenshot.png)
 
 Devtools for [React Query](https://github.com/tannerlinsley/react-query)
 
