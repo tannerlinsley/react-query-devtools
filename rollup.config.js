@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import size from 'rollup-plugin-size'
 import postcss from 'rollup-plugin-postcss'
+import json from '@rollup/plugin-json'
 
 const external = [
   'react',
@@ -41,7 +42,7 @@ export default [
       globals,
     },
     external,
-    plugins: [babel(), postcss()],
+    plugins: [babel(), json(), postcss()],
   },
   {
     input: 'src/index.js',
@@ -55,6 +56,7 @@ export default [
     external,
     plugins: [
       babel(),
+      json(),
       terser(),
       size({
         writeFile: false,

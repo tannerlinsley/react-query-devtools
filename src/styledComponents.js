@@ -3,7 +3,7 @@ import { styled } from './utils'
 export const Panel = styled(
   'div',
   (props, theme) => ({
-    fontSize: '14px',
+    fontSize: '1rem',
     display: 'flex',
     backgroundColor: theme.background,
     color: theme.foreground,
@@ -18,29 +18,30 @@ export const Panel = styled(
 
 export const Button = styled('button', (props, theme) => ({
   appearance: 'none',
-  fontSize: '.9em',
+  fontSize: '.9rem',
   fontWeight: 'bold',
   background: theme.gray,
   border: '0',
-  borderRadius: '.3em',
+  borderRadius: '.3rem',
   color: 'white',
-  padding: '.5em',
+  padding: '.5rem',
   opacity: props.disabled ? '.5' : undefined,
 }))
 
-export const QueryKeys = styled('div', {
-  fontSize: '0.9em',
+export const QueryKeys = styled('span', {
+  display: 'inline-block',
+  fontSize: '0.9rem',
 })
 
 export const QueryKey = styled('span', {
   display: 'inline-flex',
   alignItems: 'center',
-  padding: '.2em .4em',
+  padding: '.2rem .4rem',
   fontWeight: 'bold',
   textShadow: '0 0 10px black',
-  borderRadius: '.2em',
+  borderRadius: '.2rem',
 })
 
 export const Code = styled('code', {
-  fontSize: '.9em',
+  fontSize: '.9rem',
 })

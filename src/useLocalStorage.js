@@ -2,8 +2,7 @@ import React from 'react'
 
 const getItem = key => {
   try {
-    const val = JSON.parse(localStorage.getItem(key))
-    return val
+    return JSON.parse(localStorage.getItem(key))
   } catch {
     return undefined
   }
@@ -12,7 +11,7 @@ const getItem = key => {
 export default function useLocalStorage(key, defaultValue) {
   const [value, setValue] = React.useState(() => {
     const val = getItem(key)
-    if (typeof val === 'undefined') {
+    if (typeof val === 'undefined' || val === null) {
       return typeof defaultValue === 'function' ? defaultValue() : defaultValue
     }
     return val
@@ -27,7 +26,7 @@ export default function useLocalStorage(key, defaultValue) {
           newVal = updater(old)
         }
 
-        localStorage.setItem(key, newVal)
+        localStorage.setItem(key, JSON.stringify(newVal))
 
         return newVal
       })

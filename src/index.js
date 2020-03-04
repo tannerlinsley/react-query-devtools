@@ -8,6 +8,7 @@ import 'codemirror/theme/material.css'
 
 //
 
+import pkg from '../package.json'
 import { Panel, QueryKeys, QueryKey, Button, Code } from './styledComponents'
 import { ThemeProvider, useTheme } from './theme'
 import { getQueryStatusLabel, getQueryStatusColor } from './utils'
@@ -76,7 +77,7 @@ export function ReactQueryDevtools({ initialIsOpen }) {
               position: 'fixed',
               bottom: '0',
               right: '0',
-              margin: '.5em',
+              margin: '.5rem',
             }}
           >
             Close
@@ -90,8 +91,8 @@ export function ReactQueryDevtools({ initialIsOpen }) {
             bottom: '0',
             right: '0',
             display: 'inline-block',
-            fontSize: '1.5em',
-            margin: '.5em',
+            fontSize: '1.5rem',
+            margin: '.5rem',
             cursor: 'pointer',
             textShadow: '0 0 10px black',
           }}
@@ -103,25 +104,61 @@ export function ReactQueryDevtools({ initialIsOpen }) {
   )
 }
 
-function getSortedQueries(queryCache) {
-  const sortByAccessor = d => d.queryHash
+const getStatusRank = q =>
+  q.state.isFetching ? 0 : !q.instances.length ? 3 : q.state.isStale ? 2 : 3
 
-  return Object.values(queryCache.queries).sort(
-    (a, b) => sortByAccessor(a) - sortByAccessor(b)
-  )
+const sortFns = {
+  'Query Hash': (a, b) => (a.queryHash > b.queryHash ? 1 : -1),
+  'Status > Last Updated': (a, b) =>
+    getStatusRank(a) === getStatusRank(b)
+      ? sortFns['Last Updated'](a, b)
+      : getStatusRank(a) > getStatusRank(b)
+      ? 1
+      : -1,
+  'Last Updated': (a, b) => (a.state.updatedAt < b.state.updatedAt ? 1 : -1),
 }
 
 export const ReactQueryDevtoolsPanel = React.forwardRef(
   function ReactQueryDevtoolsPanel(props, ref) {
     const [isEditingQuery, setIsEditingQuery] = React.useState(false)
-    const [queries, setQueries] = React.useState(getSortedQueries(queryCache))
+
+    const [sort, setSort] = useLocalStorage(
+      'reactQueryDevtoolsSortFn',
+      Object.keys(sortFns)[0]
+    )
+
+    const [sortDesc, setSortDesc] = useLocalStorage(
+      'reactQueryDevtoolsSortDesc',
+      false
+    )
+
+    const sortFn = React.useMemo(() => sortFns[sort], [sort])
+
+    React.useLayoutEffect(() => {
+      if (!sortFn) {
+        setSort(Object.keys(sortFns)[0])
+      }
+    }, [setSort, sortFn])
+
+    const [unsortedQueries, setUnsortedQueries] = React.useState(
+      Object.values(queryCache.queries)
+    )
+
     const [activeQueryHash, setActiveQueryHash] = React.useState(null)
 
-    React.useEffect(() => {
-      return queryCache.subscribe(queryCache => {
-        setQueries(getSortedQueries(queryCache))
-      })
-    }, [])
+    console.log(sortFn)
+
+    const queries = React.useMemo(() => {
+      const sorted = [...unsortedQueries].sort(sortFn)
+
+      if (sortDesc) {
+        sorted.reverse()
+      }
+
+      return sorted
+    }, [sortDesc, sortFn, unsortedQueries])
+
+    console.log(queries.map(d => d.queryHash))
 
     const [activeQuery, activeQueryJson] = React.useMemo(() => {
       const activeQuery = queries.find(
@@ -134,6 +171,23 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       ]
     }, [activeQueryHash, queries])
 
+    const hasFresh = queries.filter(q => getQueryStatusLabel(q) === 'fresh')
+      .length
+    const hasFetching = queries.filter(
+      q => getQueryStatusLabel(q) === 'fetching'
+    ).length
+    const hasStale = queries.filter(q => getQueryStatusLabel(q) === 'stale')
+      .length
+    const hasInactive = queries.filter(
+      q => getQueryStatusLabel(q) === 'inactive'
+    ).length
+
+    React.useEffect(() => {
+      return queryCache.subscribe(queryCache => {
+        setUnsortedQueries(Object.values(queryCache.queries))
+      })
+    }, [sort, sortFn, sortDesc])
+
     React.useEffect(() => {
       if (activeQueryHash) {
         setIsEditingQuery(false)
@@ -145,17 +199,6 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         setActiveQueryHash(null)
       }
     }, [activeQuery, activeQueryHash])
-
-    const hasFresh = queries.filter(q => getQueryStatusLabel(q) === 'fresh')
-      .length
-    const hasFetching = queries.filter(
-      q => getQueryStatusLabel(q) === 'fetching'
-    ).length
-    const hasStale = queries.filter(q => getQueryStatusLabel(q) === 'stale')
-      .length
-    const hasInactive = queries.filter(
-      q => getQueryStatusLabel(q) === 'inactive'
-    ).length
 
     return (
       <ThemeProvider theme={theme}>
@@ -170,51 +213,108 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
           >
             <div
               style={{
-                padding: '.5em',
+                padding: '.5rem',
                 background: theme.backgroundAlt,
                 display: 'flex',
                 justifyContent: 'space-between',
+                alignItems: 'center',
               }}
             >
-              <div>
-                Queries <Code>({queries.length})</Code>
+              <div
+                style={{
+                  fontSize: '1.2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <div
+                  style={{
+                    marginBottom: '.5rem',
+                    opacity: 0.3,
+                  }}
+                >
+                  React Query Devtools <small>v{pkg.version}</small>
+                </div>
+                <div
+                  style={{
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Queries ({queries.length})
+                </div>
               </div>
-              <QueryKeys>
-                <QueryKey
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <QueryKeys style={{ marginBottom: '.5rem' }}>
+                  <QueryKey
+                    style={{
+                      background: theme.success,
+                      opacity: hasFresh ? 1 : 0.3,
+                    }}
+                  >
+                    fresh <Code>({hasFresh})</Code>
+                  </QueryKey>{' '}
+                  <QueryKey
+                    style={{
+                      background: theme.active,
+                      opacity: hasFetching ? 1 : 0.3,
+                    }}
+                  >
+                    fetching <Code>({hasFetching})</Code>
+                  </QueryKey>{' '}
+                  <QueryKey
+                    style={{
+                      background: theme.warning,
+                      color: 'black',
+                      textShadow: '0',
+                      opacity: hasStale ? 1 : 0.3,
+                    }}
+                  >
+                    stale <Code>({hasStale})</Code>
+                  </QueryKey>{' '}
+                  <QueryKey
+                    style={{
+                      background: theme.gray,
+                      opacity: hasInactive ? 1 : 0.3,
+                    }}
+                  >
+                    inactive <Code>({hasInactive})</Code>
+                  </QueryKey>
+                </QueryKeys>
+                <div
                   style={{
-                    background: theme.success,
-                    opacity: hasFresh ? 1 : 0.3,
+                    display: 'flex',
+                    alignItems: 'center',
                   }}
                 >
-                  fresh <Code>({hasFresh})</Code>
-                </QueryKey>{' '}
-                <QueryKey
-                  style={{
-                    background: theme.active,
-                    opacity: hasFetching ? 1 : 0.3,
-                  }}
-                >
-                  fetching <Code>({hasFetching})</Code>
-                </QueryKey>{' '}
-                <QueryKey
-                  style={{
-                    background: theme.warning,
-                    color: 'black',
-                    textShadow: '0',
-                    opacity: hasStale ? 1 : 0.3,
-                  }}
-                >
-                  stale <Code>({hasStale})</Code>
-                </QueryKey>{' '}
-                <QueryKey
-                  style={{
-                    background: theme.gray,
-                    opacity: hasInactive ? 1 : 0.3,
-                  }}
-                >
-                  inactive <Code>({hasInactive})</Code>
-                </QueryKey>
-              </QueryKeys>
+                  <select
+                    value={sort}
+                    onChange={e => setSort(e.target.value)}
+                    style={{
+                      flex: '1',
+                      marginRight: '.5rem',
+                    }}
+                  >
+                    {Object.keys(sortFns).map(key => (
+                      <option key={key} value={key}>
+                        Sort by {key}
+                      </option>
+                    ))}
+                  </select>
+                  <Button
+                    onClick={() => setSortDesc(old => !old)}
+                    style={{
+                      padding: '.2rem .4rem',
+                    }}
+                  >
+                    {sortDesc ? '⬇ Desc' : '⬆ Asc'}
+                  </Button>
+                </div>
+              </div>
             </div>
             <div
               style={{
@@ -237,14 +337,14 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 >
                   <div
                     style={{
-                      width: '.5em',
-                      height: '2em',
+                      width: '.5rem',
+                      height: '2rem',
                       background: getQueryStatusColor(query, theme),
                     }}
                   />
                   <Code
                     style={{
-                      padding: '.5em',
+                      padding: '.5rem',
                     }}
                   >
                     {query.queryHash}
@@ -263,7 +363,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
           >
             <div
               style={{
-                padding: '.5em',
+                padding: '.5rem',
                 background: theme.backgroundAlt,
               }}
             >
@@ -273,7 +373,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               <>
                 <div
                   style={{
-                    padding: '1em',
+                    padding: '1rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -281,15 +381,15 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 >
                   <Code
                     style={{
-                      lineHeight: '1.8em',
+                      lineHeight: '1.8rem',
                     }}
                   >
                     {activeQuery.queryHash}
                   </Code>
                   <span
                     style={{
-                      padding: '0.3em .6em',
-                      borderRadius: '0.4em',
+                      padding: '0.3rem .6rem',
+                      borderRadius: '0.4rem',
                       fontWeight: 'bold',
                       textShadow: '0 2px 10px black',
                       background: getQueryStatusColor(activeQuery, theme),
@@ -313,14 +413,14 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     <div
                       style={{
                         background: theme.backgroundAlt,
-                        padding: '.5em',
+                        padding: '.5rem',
                       }}
                     >
                       Actions
                     </div>
                     <div
                       style={{
-                        padding: '1em',
+                        padding: '1rem',
                       }}
                     >
                       <Button
@@ -354,14 +454,14 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     <div
                       style={{
                         background: theme.backgroundAlt,
-                        padding: '.5em',
+                        padding: '.5rem',
                       }}
                     >
                       Data Explorer
                     </div>
                     <div
                       style={{
-                        padding: '.5em',
+                        padding: '.5rem',
                       }}
                     >
                       <Explorer
@@ -373,14 +473,14 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     <div
                       style={{
                         background: theme.backgroundAlt,
-                        padding: '.5em',
+                        padding: '.5rem',
                       }}
                     >
                       Query Explorer
                     </div>
                     <div
                       style={{
-                        padding: '.5em',
+                        padding: '.5rem',
                       }}
                     >
                       <Explorer
@@ -397,7 +497,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
             ) : (
               <div
                 style={{
-                  padding: '1em',
+                  padding: '1rem',
                 }}
               >
                 Select a query for more info...
@@ -419,7 +519,7 @@ function QueryEditor({ query, onClose }) {
       <div
         style={{
           flex: '1',
-          marginBottom: '.5em',
+          marginBottom: '.5rem',
           overflow: 'hidden',
         }}
       >

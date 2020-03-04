@@ -168,8 +168,6 @@ export default function Explorer({
     }
   }
 
-  console.log({ subEntryPages })
-
   return renderer({
     handleEntry: entry => (
       <Explorer key={entry.label} renderer={renderer} {...rest} {...entry} />
