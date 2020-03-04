@@ -25,6 +25,10 @@ Enjoy this library? Try them all! [React Query](https://github.com/tannerlinsley
 - Inspect core query objects and query data payloads
 - Manually refetch & remove queries
 
+# Demo
+
+- [React Query Sandbox](https://codesandbox.io/embed/github/tannerlinsley/react-query/tree/master/examples/sandbox?codemirror=1)
+
 # Documentation
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
