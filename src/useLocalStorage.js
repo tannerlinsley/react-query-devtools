@@ -25,8 +25,10 @@ export default function useLocalStorage(key, defaultValue) {
         if (typeof updater == 'function') {
           newVal = updater(old)
         }
+        try {
+          localStorage.setItem(key, JSON.stringify(newVal))
+        } catch {}
 
-        localStorage.setItem(key, JSON.stringify(newVal))
 
         return newVal
       })
