@@ -84,13 +84,13 @@ function App() {
 Embedded Mode will embed the devtools as a regular component in your application. You can style it however you'd like after that!
 
 ```js
-import { ReactQueryDevtools } from 'react-query-devtools'
+import { ReactQueryDevtoolsPanel } from 'react-query-devtools'
 
 function App() {
   return (
     <>
       {/* The rest of your application */}
-      <ReactQueryDevtools style={styles} className={className} />
+      <ReactQueryDevtoolsPanel style={styles} className={className} />
     </>
   )
 }
