@@ -198,6 +198,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               minHeight: '33%',
               overflow: 'auto',
               borderRight: `1px solid ${theme.grayAlt}`,
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
             <div
