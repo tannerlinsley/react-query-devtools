@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.10
+
+- Fix instance count styles
+
 ## 1.0.9
 
 - Default sort by status

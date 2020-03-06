@@ -326,6 +326,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 >
                   <div
                     style={{
+                      flex: '0 0 auto',
                       width: '2rem',
                       height: '2rem',
                       background: getQueryStatusColor(query, theme),
