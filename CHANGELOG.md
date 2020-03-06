@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.12
+
+- Prevent queries header from scrolling
+
 ## 1.0.11
 
 - No text shadow on stale indicators
