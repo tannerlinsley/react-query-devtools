@@ -109,13 +109,13 @@ const getStatusRank = q =>
   q.state.isFetching ? 0 : !q.instances.length ? 3 : q.state.isStale ? 2 : 1
 
 const sortFns = {
-  'Query Hash': (a, b) => (a.queryHash > b.queryHash ? 1 : -1),
   'Status > Last Updated': (a, b) =>
     getStatusRank(a) === getStatusRank(b)
       ? sortFns['Last Updated'](a, b)
       : getStatusRank(a) > getStatusRank(b)
       ? 1
       : -1,
+  'Query Hash': (a, b) => (a.queryHash > b.queryHash ? 1 : -1),
   'Last Updated': (a, b) => (a.state.updatedAt < b.state.updatedAt ? 1 : -1),
 }
 
@@ -326,11 +326,22 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 >
                   <div
                     style={{
-                      width: '.5rem',
+                      width: '2rem',
                       height: '2rem',
                       background: getQueryStatusColor(query, theme),
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 'bold',
+                      textShadow: '0 0 10px black',
+                      color:
+                        getQueryStatusLabel(query) === 'stale'
+                          ? 'black'
+                          : 'white',
                     }}
-                  />
+                  >
+                    {query.instances.length}
+                  </div>
                   <Code
                     style={{
                       padding: '.5rem',

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.9
+
+- Default sort by status
+- Add instance count next to query
+
 ## 1.0.8
 
 - Sort by status is now fixed for fresh queries
