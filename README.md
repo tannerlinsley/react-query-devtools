@@ -27,7 +27,7 @@ Enjoy this library? Try them all! [React Query](https://github.com/tannerlinsley
 
 # Demo
 
-- [React Query Sandbox](https://codesandbox.io/embed/github/tannerlinsley/react-query/tree/master/examples/sandbox?codemirror=1)
+- [React Query Sandbox](https://codesandbox.io/s/github/tannerlinsley/react-query/tree/master/examples/sandbox)
 
 # Documentation
 
