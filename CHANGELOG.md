@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.11
+
+- No text shadow on stale indicators
+
 ## 1.0.10
 
 - Fix instance count styles
