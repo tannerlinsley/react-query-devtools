@@ -106,7 +106,7 @@ export function ReactQueryDevtools({ initialIsOpen }) {
 }
 
 const getStatusRank = q =>
-  q.state.isFetching ? 0 : !q.instances.length ? 3 : q.state.isStale ? 2 : 3
+  q.state.isFetching ? 0 : !q.instances.length ? 3 : q.state.isStale ? 2 : 1
 
 const sortFns = {
   'Query Hash': (a, b) => (a.queryHash > b.queryHash ? 1 : -1),

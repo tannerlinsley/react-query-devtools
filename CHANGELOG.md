@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8
+
+- Sort by status is now fixed for fresh queries
+
 ## 1.0.7
 
 - Buttons now use a pointer cursor style
