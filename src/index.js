@@ -334,7 +334,10 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontWeight: 'bold',
-                      textShadow: '0 0 10px black',
+                      textShadow:
+                        getQueryStatusLabel(query) === 'stale'
+                          ? '0'
+                          : '0 0 10px black',
                       color:
                         getQueryStatusLabel(query) === 'stale'
                           ? 'black'
