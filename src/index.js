@@ -309,7 +309,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
             </div>
             <div
               style={{
-                overflow: 'scroll',
+                overflow: 'auto',
               }}
             >
               {queries.map(query => (
