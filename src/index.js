@@ -10,6 +10,8 @@ import { ThemeProvider } from './theme'
 import { getQueryStatusLabel, getQueryStatusColor } from './utils'
 import Explorer from './Explorer'
 
+const isServer = typeof window === 'undefined'
+
 const theme = {
   background: '#0b1521',
   backgroundAlt: '#132337',
@@ -35,7 +37,7 @@ export function ReactQueryDevtools({ initialIsOpen }) {
     setIsResolvedOpen(isOpen)
   }, [isOpen, isResolvedOpen])
 
-  React.useLayoutEffect(() => {
+  React[isServer ? 'useEffect' : 'useLayoutEffect'](() => {
     if (isResolvedOpen) {
       const previousValue = rootRef.current?.parentElement.style.paddingBottom
 
@@ -133,7 +135,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
     const sortFn = React.useMemo(() => sortFns[sort], [sort])
 
-    React.useLayoutEffect(() => {
+    React[isServer ? 'useEffect' : 'useLayoutEffect'](() => {
       if (!sortFn) {
         setSort(Object.keys(sortFns)[0])
       }

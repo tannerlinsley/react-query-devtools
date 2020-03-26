@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.13
+
+- Better overflow styles
+- No more useLayoutEffect warnings in non-window environments like Next.js
+
 ## 1.0.12
 
 - Prevent queries header from scrolling
