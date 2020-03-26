@@ -35,14 +35,6 @@ export default [
       globals,
     },
     external,
-    plugins: [
-      babel(),
-      json(),
-      externalDeps(),
-      terser(),
-      size({
-        writeFile: false,
-      }),
-    ],
+    plugins: [babel(), json(), externalDeps(), terser(), size()],
   },
 ]
