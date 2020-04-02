@@ -78,6 +78,12 @@ function App() {
 
 - `initialIsOpen: Boolean`
   - Set this `true` if you want the dev tools to default to being open
+- `panelStyle: StyleObject`
+  - Use this to override (merge) the style of the panel. It is a standard React style object used to style a component with inline styles.
+- `closeButtonStyle: StyleObject`
+  - Use this to override (merge) the style of the close button. It is a standard React style object used to style a component with inline styles.
+- `toggleButtonStyle: StyleObject`
+  - Use this to override (merge) the style of the toggle button. It is a standard React style object used to style a component with inline styles.
 
 ## Embedded Mode
 

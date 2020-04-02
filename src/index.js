@@ -24,7 +24,12 @@ const theme = {
   warning: '#ffb200',
 }
 
-export function ReactQueryDevtools({ initialIsOpen }) {
+export function ReactQueryDevtools({
+  initialIsOpen,
+  panelStyle = {},
+  closeButtonStyle = {},
+  toggleButtonStyle = {},
+}) {
   const rootRef = React.useRef()
   const panelRef = React.useRef()
   const [isOpen, setIsOpen] = useLocalStorage(
@@ -67,11 +72,13 @@ export function ReactQueryDevtools({ initialIsOpen }) {
               position: 'fixed',
               bottom: '0',
               right: '0',
+              zIndex: '99999',
               width: '100%',
               height: '500px',
               maxHeight: '50%',
               boxShadow: '0 0 20px rgba(0,0,0,.3)',
               borderTop: `1px solid ${theme.gray}`,
+              ...panelStyle,
             }}
           />
           <Button
@@ -80,7 +87,9 @@ export function ReactQueryDevtools({ initialIsOpen }) {
               position: 'fixed',
               bottom: '0',
               right: '0',
+              zIndex: '99999',
               margin: '.5rem',
+              ...closeButtonStyle,
             }}
           >
             Close
@@ -93,11 +102,13 @@ export function ReactQueryDevtools({ initialIsOpen }) {
             position: 'fixed',
             bottom: '0',
             right: '0',
+            zIndex: '99999',
             display: 'inline-block',
             fontSize: '1.5rem',
             margin: '.5rem',
             cursor: 'pointer',
             textShadow: 'rgba(0,0,0,0.4) 0px 5px 10px',
+            ...toggleButtonStyle,
           }}
         >
           <span>🎛</span>
