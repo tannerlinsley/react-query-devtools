@@ -26,9 +26,9 @@ const theme = {
 
 export function ReactQueryDevtools({
   initialIsOpen,
-  panelStyle = {},
-  closeButtonStyle = {},
-  toggleButtonStyle = {},
+  panelProps = {},
+  closeButtonProps = {},
+  toggleButtonProps = {},
 }) {
   const rootRef = React.useRef()
   const panelRef = React.useRef()
@@ -62,12 +62,25 @@ export function ReactQueryDevtools({
     }
   }, [isResolvedOpen])
 
+  const { style: panelStyle = {}, ...otherPanelProps } = panelProps
+  const {
+    style: closeButtonStyle = {},
+    onClick: onCloseClick,
+    ...otherCloseButtonProps
+  } = closeButtonProps
+  const {
+    style: toggleButtonStyle = {},
+    onClick: onToggleClick,
+    ...otherToggleButtonProps
+  } = toggleButtonProps
+
   return (
     <div ref={rootRef} className="ReactQueryDevtools">
       {isResolvedOpen ? (
         <ThemeProvider theme={theme}>
           <ReactQueryDevtoolsPanel
             ref={panelRef}
+            {...otherPanelProps}
             style={{
               position: 'fixed',
               bottom: '0',
@@ -82,7 +95,11 @@ export function ReactQueryDevtools({
             }}
           />
           <Button
-            onClick={() => setIsOpen(false)}
+            {...otherCloseButtonProps}
+            onClick={() => {
+              setIsOpen(false)
+              onCloseClick && onCloseClick()
+            }}
             style={{
               position: 'fixed',
               bottom: '0',
@@ -97,7 +114,11 @@ export function ReactQueryDevtools({
         </ThemeProvider>
       ) : (
         <div
-          onClick={() => setIsOpen(true)}
+          {...otherToggleButtonProps}
+          onClick={() => {
+            setIsOpen(true)
+            onToggleClick && onToggleClick()
+          }}
           style={{
             position: 'fixed',
             bottom: '0',
