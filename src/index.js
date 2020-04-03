@@ -24,7 +24,12 @@ const theme = {
   warning: '#ffb200',
 }
 
-export function ReactQueryDevtools({ initialIsOpen }) {
+export function ReactQueryDevtools({
+  initialIsOpen,
+  panelProps = {},
+  closeButtonProps = {},
+  toggleButtonProps = {},
+}) {
   const rootRef = React.useRef()
   const panelRef = React.useRef()
   const [isOpen, setIsOpen] = useLocalStorage(
@@ -57,30 +62,51 @@ export function ReactQueryDevtools({ initialIsOpen }) {
     }
   }, [isResolvedOpen])
 
+  const { style: panelStyle = {}, ...otherPanelProps } = panelProps
+  const {
+    style: closeButtonStyle = {},
+    onClick: onCloseClick,
+    ...otherCloseButtonProps
+  } = closeButtonProps
+  const {
+    style: toggleButtonStyle = {},
+    onClick: onToggleClick,
+    ...otherToggleButtonProps
+  } = toggleButtonProps
+
   return (
     <div ref={rootRef} className="ReactQueryDevtools">
       {isResolvedOpen ? (
         <ThemeProvider theme={theme}>
           <ReactQueryDevtoolsPanel
             ref={panelRef}
+            {...otherPanelProps}
             style={{
               position: 'fixed',
               bottom: '0',
               right: '0',
+              zIndex: '99999',
               width: '100%',
               height: '500px',
               maxHeight: '50%',
               boxShadow: '0 0 20px rgba(0,0,0,.3)',
               borderTop: `1px solid ${theme.gray}`,
+              ...panelStyle,
             }}
           />
           <Button
-            onClick={() => setIsOpen(false)}
+            {...otherCloseButtonProps}
+            onClick={() => {
+              setIsOpen(false)
+              onCloseClick && onCloseClick()
+            }}
             style={{
               position: 'fixed',
               bottom: '0',
               right: '0',
+              zIndex: '99999',
               margin: '.5rem',
+              ...closeButtonStyle,
             }}
           >
             Close
@@ -88,16 +114,22 @@ export function ReactQueryDevtools({ initialIsOpen }) {
         </ThemeProvider>
       ) : (
         <div
-          onClick={() => setIsOpen(true)}
+          {...otherToggleButtonProps}
+          onClick={() => {
+            setIsOpen(true)
+            onToggleClick && onToggleClick()
+          }}
           style={{
             position: 'fixed',
             bottom: '0',
             right: '0',
+            zIndex: '99999',
             display: 'inline-block',
             fontSize: '1.5rem',
             margin: '.5rem',
             cursor: 'pointer',
             textShadow: 'rgba(0,0,0,0.4) 0px 5px 10px',
+            ...toggleButtonStyle,
           }}
         >
           <span>🎛</span>

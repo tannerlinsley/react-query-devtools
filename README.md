@@ -78,6 +78,12 @@ function App() {
 
 - `initialIsOpen: Boolean`
   - Set this `true` if you want the dev tools to default to being open
+- `panelProps: PropsObject`
+  - Use this to add props to the panel. For example, you can add `className`, `style` (merge and override default style), etc.
+- `closeButtonProps: PropsObject`
+  - Use this to add props to the close button. For example, you can add `className`, `style` (merge and override default style), `onClick` (extend default handler), etc.
+- `toggleButtonProps: PropsObject`
+  - Use this to add props to the toggle button. For example, you can add `className`, `style` (merge and override default style), `onClick` (extend default handler), etc.
 
 ## Embedded Mode
 
