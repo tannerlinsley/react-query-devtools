@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+- Added the ability to add props to all three internal dev tools components
+- Fixed an issue where z-index was not initially set to something very high
+
 ## 1.0.13
 
 - Better overflow styles
