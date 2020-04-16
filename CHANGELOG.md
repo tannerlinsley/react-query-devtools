@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Fixed an issue where arrow functions were present in the production placeholder build
+
 ## 1.1.0
 
 - Added the ability to add props to all three internal dev tools components
