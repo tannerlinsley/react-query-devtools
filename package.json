@@ -24,11 +24,9 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "react-query": "^1.0.0"
-  },
   "peerDependencies": {
-    "react": "^16.6.3"
+    "react": "^16.6.3",
+    "react-query": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
