@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2 - 1.1.3
+
+- Updated the global package namespace from `ReactQuery` to `ReactQueryDevtools`
+
 ## 1.1.1
 
 - Fixed an issue where arrow functions were present in the production placeholder build
