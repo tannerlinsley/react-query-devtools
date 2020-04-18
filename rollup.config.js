@@ -16,7 +16,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      name: 'ReactQuery',
+      name: 'ReactQueryDevtools',
       file: 'dist/react-query-devtools.development.js',
       format: 'umd',
       sourcemap: true,
@@ -28,7 +28,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      name: 'ReactQuery',
+      name: 'ReactQueryDevtools',
       file: 'dist/react-query-devtools.production.min.js',
       format: 'umd',
       sourcemap: true,
