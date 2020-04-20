@@ -70,5 +70,8 @@
     "rollup-plugin-size": "^0.2.2",
     "rollup-plugin-size-snapshot": "^0.10.0",
     "rollup-plugin-terser": "^5.2.0"
+  },
+  "dependencies": {
+    "match-sorter": "^4.1.0"
   }
 }

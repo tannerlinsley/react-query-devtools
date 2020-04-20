@@ -26,7 +26,7 @@ export const Button = styled('button', (props, theme) => ({
   color: 'white',
   padding: '.5rem',
   opacity: props.disabled ? '.5' : undefined,
-  cursor: 'pointer'
+  cursor: 'pointer',
 }))
 
 export const QueryKeys = styled('span', {
