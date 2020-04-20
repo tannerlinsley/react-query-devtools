@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+
+- Added the ability to filter the query list
+
 ## 1.1.2 - 1.1.3
 
 - Updated the global package namespace from `ReactQuery` to `ReactQueryDevtools`

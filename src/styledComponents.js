@@ -46,3 +46,29 @@ export const QueryKey = styled('span', {
 export const Code = styled('code', {
   fontSize: '.9rem',
 })
+
+export const Input = styled('input', {
+  border: 0,
+  borderRadius: '.2rem',
+  fontSize: '.9rem',
+  padding: '.3rem .4rem',
+})
+
+export const Select = styled('select', {
+  display: `inline-block`,
+  fontSize: `.9rem`,
+  fontFamily: `sans-serif`,
+  fontWeight: 'normal',
+  lineHeight: `1.3`,
+  padding: `.3rem 1.5rem .3rem .5rem`,
+  height: 'auto',
+  border: 0,
+  borderRadius: `.2rem`,
+  appearance: `none`,
+  WebkitAppearance: 'none',
+  backgroundColor: `#fff`,
+  backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23444444'><polygon points='0,25 100,25 50,75'/></svg>")`,
+  backgroundRepeat: `no-repeat`,
+  backgroundPosition: `right .55rem center`,
+  backgroundSize: `.65em auto, 100%`,
+})

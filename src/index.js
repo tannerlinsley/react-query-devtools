@@ -6,7 +6,15 @@ import useLocalStorage from './useLocalStorage'
 //
 
 import pkg from '../package.json'
-import { Panel, QueryKeys, QueryKey, Button, Code } from './styledComponents'
+import {
+  Panel,
+  QueryKeys,
+  QueryKey,
+  Button,
+  Code,
+  Input,
+  Select,
+} from './styledComponents'
 import { ThemeProvider } from './theme'
 import { getQueryStatusLabel, getQueryStatusColor } from './utils'
 import Explorer from './Explorer'
@@ -319,7 +327,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     alignItems: 'center',
                   }}
                 >
-                  <input
+                  <Input
                     placeholder="Filter"
                     value={filter}
                     onChange={e => setFilter(e.target.value)}
@@ -331,7 +339,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       marginRight: '.5rem',
                     }}
                   />
-                  <select
+                  <Select
                     value={sort}
                     onChange={e => setSort(e.target.value)}
                     style={{
@@ -344,7 +352,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                         Sort by {key}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                   <Button
                     onClick={() => setSortDesc(old => !old)}
                     style={{
