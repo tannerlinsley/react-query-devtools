@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.5
+
+- Added default styles for inputs and select boxes
+- Fixed a bug where `match-sorter` was not a dependency
+
 ## 1.1.4
 
 - Added the ability to filter the query list
