@@ -1,4 +1,5 @@
 import React from 'react'
+import match from 'match-sorter'
 import { queryCache } from 'react-query'
 import useLocalStorage from './useLocalStorage'
 
@@ -160,6 +161,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       Object.keys(sortFns)[0]
     )
 
+    const [filter, setFilter] = useLocalStorage('reactQueryDevtoolsFilter', '')
+
     const [sortDesc, setSortDesc] = useLocalStorage(
       'reactQueryDevtoolsSortDesc',
       false
@@ -186,8 +189,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         sorted.reverse()
       }
 
-      return sorted
-    }, [sortDesc, sortFn, unsortedQueries])
+      return match(sorted, filter, { keys: ['queryHash'] })
+    }, [sortDesc, sortFn, unsortedQueries, filter])
 
     const [activeQuery, activeQueryJson] = React.useMemo(() => {
       const activeQuery = queries.find(
@@ -316,6 +319,18 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     alignItems: 'center',
                   }}
                 >
+                  <input
+                    placeholder="Filter"
+                    value={filter}
+                    onChange={e => setFilter(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Escape') setFilter('')
+                    }}
+                    style={{
+                      flex: '1',
+                      marginRight: '.5rem',
+                    }}
+                  />
                   <select
                     value={sort}
                     onChange={e => setSort(e.target.value)}
