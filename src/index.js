@@ -456,6 +456,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       fontWeight: 'bold',
                       textShadow: '0 2px 10px black',
                       background: getQueryStatusColor(activeQuery, theme),
+                      flexShrink: 0,
                     }}
                   >
                     {getQueryStatusLabel(activeQuery)}
