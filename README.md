@@ -57,9 +57,9 @@ If you want to use the devtools in production, you can manually import them (pre
 
 ## Floating Mode
 
-Floating Mode will mount the devtools as a fixed, floating element in your app and provide a toggle in the corner of the screen you can use to show and hide the devtools. This toggle state will be stored and remembered in localStorage across reloads.
+Floating Mode will mount the devtools as a fixed, floating element in your app and provide a toggle in the corner of the screen to show and hide the devtools. This toggle state will be stored and remembered in localStorage across reloads.
 
-Place the following code as high in your React app as you possibly can. The close it is to the root of the page, the better it will work!
+Place the following code as high in your React app as you can. The closer it is to the root of the page, the better it will work!
 
 ```js
 import { ReactQueryDevtools } from 'react-query-devtools'
@@ -103,6 +103,8 @@ function App() {
 ```
 
 ### Options
+
+Use these options to style the dev tools.
 
 - `style: StyleObject`
   - The standard React style object used to style a component with inline styles
