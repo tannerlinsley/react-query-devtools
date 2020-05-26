@@ -207,7 +207,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
       return [
         activeQuery,
-        activeQuery ? JSON.parse(JSON.stringify(activeQuery)) : null,
+        activeQuery ? JSON.parse(JSON.stringify(activeQuery, (key, value) => key === 'cache' ? undefined : value)) : null,
       ]
     }, [activeQueryHash, queries])
 
