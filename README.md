@@ -110,3 +110,5 @@ Use these options to style the dev tools.
   - The standard React style object used to style a component with inline styles
 - `className: string`
   - The standard React className property used to style a component with classes
+
+<!-- -->
