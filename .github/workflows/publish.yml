@@ -1,5 +1,4 @@
 name: react-query-devtools publish
-
 on:
   push:
     branches:
