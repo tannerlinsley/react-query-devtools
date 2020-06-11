@@ -49,6 +49,8 @@ $ npm i --save react-query-devtools
 $ yarn add react-query-devtools
 ```
 
+Using React Native? Try [react-query-native-devtools](https://github.com/bgaleotti/react-query-native-devtools) instead.
+
 # Usage
 
 By default, React Query Devtools are not imported and used when `process.env.NODE_ENV === 'production'`, so you don't need to worry about excluding them during a production build.
