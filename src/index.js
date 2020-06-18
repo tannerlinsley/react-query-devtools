@@ -1,6 +1,6 @@
 import React from 'react'
 import match from 'match-sorter'
-import { queryCache } from 'react-query'
+import { useQueryCache } from 'react-query'
 import useLocalStorage from './useLocalStorage'
 
 //
@@ -164,6 +164,9 @@ const sortFns = {
 
 export const ReactQueryDevtoolsPanel = React.forwardRef(
   function ReactQueryDevtoolsPanel(props, ref) {
+
+    const queryCache = useQueryCache();
+
     const [sort, setSort] = useLocalStorage(
       'reactQueryDevtoolsSortFn',
       Object.keys(sortFns)[0]
