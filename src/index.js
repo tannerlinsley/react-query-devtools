@@ -18,6 +18,7 @@ import {
 import { ThemeProvider } from './theme'
 import { getQueryStatusLabel, getQueryStatusColor } from './utils'
 import Explorer from './Explorer'
+import Logo from './Logo'
 
 const isServer = typeof window === 'undefined'
 
@@ -122,27 +123,33 @@ export function ReactQueryDevtools({
           </Button>
         </ThemeProvider>
       ) : (
-        <div
+        <button
           {...otherToggleButtonProps}
           onClick={() => {
             setIsOpen(true)
             onToggleClick && onToggleClick()
           }}
           style={{
+            background: 'none',
+            border: 0,
+            padding: 0,
             position: 'fixed',
             bottom: '0',
             right: '0',
             zIndex: '99999',
-            display: 'inline-block',
+            display: 'inline-flex',
             fontSize: '1.5rem',
             margin: '.5rem',
             cursor: 'pointer',
-            textShadow: 'rgba(0,0,0,0.4) 0px 5px 10px',
             ...toggleButtonStyle,
           }}
         >
-          <span>🎛</span>
-        </div>
+          <Logo
+            width="1.5em"
+            height="1.5em"
+            aria-label="Open React Query Devtools"
+          />
+        </button>
       )}
     </div>
   )
