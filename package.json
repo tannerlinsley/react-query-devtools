@@ -31,7 +31,7 @@
   },
   "peerDependencies": {
     "react": "^16.6.3",
-    "react-query": "^1.0.0"
+    "react-query": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
