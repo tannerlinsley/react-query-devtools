@@ -288,7 +288,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     opacity: 0.3,
                   }}
                 >
-                  React Query Devtools <small>v{pkg.version}</small>
+                  React Query Devtools
                 </div>
                 <div
                   style={{

@@ -3,7 +3,7 @@ import { styled } from './utils'
 export const Panel = styled(
   'div',
   (props, theme) => ({
-    fontSize: '1rem',
+    fontSize: 'clamp(12px, 1.5vw, 16px)',
     display: 'flex',
     backgroundColor: theme.background,
     color: theme.foreground,
@@ -18,57 +18,57 @@ export const Panel = styled(
 
 export const Button = styled('button', (props, theme) => ({
   appearance: 'none',
-  fontSize: '.9rem',
+  fontSize: '.9em',
   fontWeight: 'bold',
   background: theme.gray,
   border: '0',
-  borderRadius: '.3rem',
+  borderRadius: '.3em',
   color: 'white',
-  padding: '.5rem',
+  padding: '.5em',
   opacity: props.disabled ? '.5' : undefined,
   cursor: 'pointer',
 }))
 
 export const QueryKeys = styled('span', {
   display: 'inline-block',
-  fontSize: '0.9rem',
+  fontSize: '0.9em',
 })
 
 export const QueryKey = styled('span', {
   display: 'inline-flex',
   alignItems: 'center',
-  padding: '.2rem .4rem',
+  padding: '.2em .4em',
   fontWeight: 'bold',
   textShadow: '0 0 10px black',
-  borderRadius: '.2rem',
+  borderRadius: '.2em',
 })
 
 export const Code = styled('code', {
-  fontSize: '.9rem',
+  fontSize: '.9em',
 })
 
 export const Input = styled('input', {
   border: 0,
-  borderRadius: '.2rem',
-  fontSize: '.9rem',
-  padding: '.3rem .4rem',
+  borderRadius: '.2em',
+  fontSize: '.9em',
+  padding: '.3em .4em',
 })
 
 export const Select = styled('select', {
   display: `inline-block`,
-  fontSize: `.9rem`,
+  fontSize: `.9em`,
   fontFamily: `sans-serif`,
   fontWeight: 'normal',
   lineHeight: `1.3`,
-  padding: `.3rem 1.5rem .3rem .5rem`,
+  padding: `.3em 1.5em .3em .5em`,
   height: 'auto',
   border: 0,
-  borderRadius: `.2rem`,
+  borderRadius: `.2em`,
   appearance: `none`,
   WebkitAppearance: 'none',
   backgroundColor: `#fff`,
   backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23444444'><polygon points='0,25 100,25 50,75'/></svg>")`,
   backgroundRepeat: `no-repeat`,
-  backgroundPosition: `right .55rem center`,
+  backgroundPosition: `right .55em center`,
   backgroundSize: `.65em auto, 100%`,
 })
