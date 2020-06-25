@@ -16,7 +16,11 @@ import {
   Select,
 } from './styledComponents'
 import { ThemeProvider } from './theme'
-import { getQueryStatusLabel, getQueryStatusColor } from './utils'
+import {
+  getQueryStatusLabel,
+  getQueryStatusColor,
+  getQueryOpacity,
+} from './utils'
 import Explorer from './Explorer'
 import Logo from './Logo'
 
@@ -171,8 +175,7 @@ const sortFns = {
 
 export const ReactQueryDevtoolsPanel = React.forwardRef(
   function ReactQueryDevtoolsPanel(props, ref) {
-
-    const queryCache = useQueryCache ? useQueryCache() : cache;
+    const queryCache = useQueryCache ? useQueryCache() : cache
 
     const [sort, setSort] = useLocalStorage(
       'reactQueryDevtoolsSortFn',
@@ -217,7 +220,13 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
       return [
         activeQuery,
-        activeQuery ? JSON.parse(JSON.stringify(activeQuery, (key, value) => key === 'cache' ? undefined : value)) : null,
+        activeQuery
+          ? JSON.parse(
+              JSON.stringify(activeQuery, (key, value) =>
+                key === 'cache' ? undefined : value
+              )
+            )
+          : null,
       ]
     }, [activeQueryHash, queries])
 
@@ -236,7 +245,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       return queryCache.subscribe(queryCache => {
         setUnsortedQueries(Object.values(queryCache.queries))
       })
-    }, [sort, sortFn, sortDesc])
+    }, [sort, sortFn, sortDesc, queryCache])
 
     React.useEffect(() => {
       if (activeQueryHash && !activeQuery) {
@@ -399,6 +408,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       width: '2rem',
                       height: '2rem',
                       background: getQueryStatusColor(query, theme),
+                      opacity: getQueryOpacity(query),
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',

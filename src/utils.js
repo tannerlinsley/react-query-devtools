@@ -6,11 +6,13 @@ import useMediaQuery from './useMediaQuery'
 export function getQueryStatusColor(query, theme) {
   return query.state.isFetching
     ? theme.active
-    : !query.instances.length
-    ? theme.gray
     : query.state.isStale
     ? theme.warning
     : theme.success
+}
+
+export function getQueryOpacity(query) {
+  return !query.instances.length ? 0.3 : 1
 }
 
 export function getQueryStatusLabel(query) {
