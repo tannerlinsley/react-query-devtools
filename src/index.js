@@ -210,7 +210,9 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         sorted.reverse()
       }
 
-      return match(sorted, filter, { keys: ['queryHash'] })
+      return match(sorted, filter, { keys: ['queryHash'] }).filter(
+        d => d.queryHash
+      )
     }, [sortDesc, sortFn, unsortedQueries, filter])
 
     const [activeQuery, activeQueryJson] = React.useMemo(() => {
@@ -388,9 +390,9 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 overflow: 'auto',
               }}
             >
-              {queries.map(query => (
+              {queries.map((query, i) => (
                 <div
-                  key={query.queryHash}
+                  key={query.queryHash || i}
                   onClick={() =>
                     setActiveQueryHash(
                       activeQueryHash === query.queryHash ? '' : query.queryHash
@@ -434,7 +436,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       padding: '.5rem',
                     }}
                   >
-                    {query.queryHash}
+                    {`${query.queryHash}`}
                   </Code>
                 </div>
               ))}
