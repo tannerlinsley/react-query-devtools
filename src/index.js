@@ -391,7 +391,11 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               {queries.map(query => (
                 <div
                   key={query.queryHash}
-                  onClick={() => setActiveQueryHash(query.queryHash)}
+                  onClick={() =>
+                    setActiveQueryHash(
+                      activeQueryHash === query.queryHash ? '' : query.queryHash
+                    )
+                  }
                   style={{
                     display: 'flex',
                     borderBottom: `solid 1px ${theme.grayAlt}`,
@@ -436,143 +440,133 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               ))}
             </div>
           </div>
-          <div
-            style={{
-              flex: '1 1 50%',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'auto',
-            }}
-          >
+          {activeQuery ? (
             <div
               style={{
-                padding: '.5rem',
-                background: theme.backgroundAlt,
+                flex: '1 1 50%',
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'auto',
               }}
             >
-              Query Details
-            </div>
-            {activeQuery ? (
-              <>
-                <div
-                  style={{
-                    padding: '1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Code
-                    style={{
-                      lineHeight: '1.8rem',
-                    }}
-                  >
-                    {activeQuery.queryHash}
-                  </Code>
-                  <span
-                    style={{
-                      padding: '0.3rem .6rem',
-                      borderRadius: '0.4rem',
-                      fontWeight: 'bold',
-                      textShadow: '0 2px 10px black',
-                      background: getQueryStatusColor(activeQuery, theme),
-                      flexShrink: 0,
-                    }}
-                  >
-                    {getQueryStatusLabel(activeQuery)}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    flex: '1',
-                    overflow: 'auto',
-                  }}
-                >
-                  <div
-                    style={{
-                      background: theme.backgroundAlt,
-                      padding: '.5rem',
-                    }}
-                  >
-                    Actions
-                  </div>
-                  <div
-                    style={{
-                      padding: '1rem',
-                    }}
-                  >
-                    <Button
-                      onClick={() => activeQuery.fetch()}
-                      disabled={activeQuery.state.isFetching}
-                      style={{
-                        background: theme.active,
-                      }}
-                    >
-                      Refetch
-                    </Button>{' '}
-                    <Button
-                      onClick={() =>
-                        queryCache.removeQueries(q => q === activeQuery)
-                      }
-                      style={{
-                        background: theme.danger,
-                      }}
-                    >
-                      Remove
-                    </Button>{' '}
-                  </div>
-                  <div
-                    style={{
-                      background: theme.backgroundAlt,
-                      padding: '.5rem',
-                    }}
-                  >
-                    Data Explorer
-                  </div>
-                  <div
-                    style={{
-                      padding: '.5rem',
-                    }}
-                  >
-                    <Explorer
-                      label="Data"
-                      value={activeQueryJson.state.data}
-                      defaultExpanded={{}}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      background: theme.backgroundAlt,
-                      padding: '.5rem',
-                    }}
-                  >
-                    Query Explorer
-                  </div>
-                  <div
-                    style={{
-                      padding: '.5rem',
-                    }}
-                  >
-                    <Explorer
-                      label="Query"
-                      value={activeQueryJson}
-                      defaultExpanded={{
-                        queryKey: true,
-                      }}
-                    />
-                  </div>
-                </div>
-              </>
-            ) : (
+              <div
+                style={{
+                  padding: '.5rem',
+                  background: theme.backgroundAlt,
+                }}
+              >
+                Query Details
+              </div>
               <div
                 style={{
                   padding: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                Select a query for more info...
+                <Code
+                  style={{
+                    lineHeight: '1.8rem',
+                  }}
+                >
+                  {activeQuery.queryHash}
+                </Code>
+                <span
+                  style={{
+                    padding: '0.3rem .6rem',
+                    borderRadius: '0.4rem',
+                    fontWeight: 'bold',
+                    textShadow: '0 2px 10px black',
+                    background: getQueryStatusColor(activeQuery, theme),
+                    flexShrink: 0,
+                  }}
+                >
+                  {getQueryStatusLabel(activeQuery)}
+                </span>
               </div>
-            )}
-          </div>
+              <div
+                style={{
+                  flex: '1',
+                  overflow: 'auto',
+                }}
+              >
+                <div
+                  style={{
+                    background: theme.backgroundAlt,
+                    padding: '.5rem',
+                  }}
+                >
+                  Actions
+                </div>
+                <div
+                  style={{
+                    padding: '1rem',
+                  }}
+                >
+                  <Button
+                    onClick={() => activeQuery.fetch()}
+                    disabled={activeQuery.state.isFetching}
+                    style={{
+                      background: theme.active,
+                    }}
+                  >
+                    Refetch
+                  </Button>{' '}
+                  <Button
+                    onClick={() =>
+                      queryCache.removeQueries(q => q === activeQuery)
+                    }
+                    style={{
+                      background: theme.danger,
+                    }}
+                  >
+                    Remove
+                  </Button>{' '}
+                </div>
+                <div
+                  style={{
+                    background: theme.backgroundAlt,
+                    padding: '.5rem',
+                  }}
+                >
+                  Data Explorer
+                </div>
+                <div
+                  style={{
+                    padding: '.5rem',
+                  }}
+                >
+                  <Explorer
+                    label="Data"
+                    value={activeQueryJson.state.data}
+                    defaultExpanded={{}}
+                  />
+                </div>
+                <div
+                  style={{
+                    background: theme.backgroundAlt,
+                    padding: '.5rem',
+                  }}
+                >
+                  Query Explorer
+                </div>
+                <div
+                  style={{
+                    padding: '.5rem',
+                  }}
+                >
+                  <Explorer
+                    label="Query"
+                    value={activeQueryJson}
+                    defaultExpanded={{
+                      queryKey: true,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : null}
         </Panel>
       </ThemeProvider>
     )
