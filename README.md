@@ -86,6 +86,9 @@ function App() {
   - Use this to add props to the close button. For example, you can add `className`, `style` (merge and override default style), `onClick` (extend default handler), etc.
 - `toggleButtonProps: PropsObject`
   - Use this to add props to the toggle button. For example, you can add `className`, `style` (merge and override default style), `onClick` (extend default handler), etc.
+- `position?: "top-left" | "top-right" | "bottom-left" | "bottom-right"`
+  - Defaults to `bottom-right`
+  - The position of the React Query logo to open and close the devtools panel
 
 ## Embedded Mode
 

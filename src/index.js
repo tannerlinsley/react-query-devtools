@@ -5,7 +5,6 @@ import useLocalStorage from './useLocalStorage'
 
 //
 
-import pkg from '../package.json'
 import {
   Panel,
   QueryKeys,
@@ -14,6 +13,7 @@ import {
   Code,
   Input,
   Select,
+  QueryCountStyles,
 } from './styledComponents'
 import { ThemeProvider } from './theme'
 import {
@@ -43,6 +43,7 @@ export function ReactQueryDevtools({
   panelProps = {},
   closeButtonProps = {},
   toggleButtonProps = {},
+  position = 'bottom-left',
 }) {
   const rootRef = React.useRef()
   const panelRef = React.useRef()
@@ -77,11 +78,13 @@ export function ReactQueryDevtools({
   }, [isResolvedOpen])
 
   const { style: panelStyle = {}, ...otherPanelProps } = panelProps
+
   const {
     style: closeButtonStyle = {},
     onClick: onCloseClick,
     ...otherCloseButtonProps
   } = closeButtonProps
+
   const {
     style: toggleButtonStyle = {},
     onClick: onToggleClick,
@@ -116,10 +119,24 @@ export function ReactQueryDevtools({
             }}
             style={{
               position: 'fixed',
-              bottom: '0',
-              right: '0',
               zIndex: '99999',
               margin: '.5rem',
+              bottom: 0,
+              ...(position === 'top-right'
+                ? {
+                    right: '0',
+                  }
+                : position === 'top-left'
+                ? {
+                    left: '0',
+                  }
+                : position === 'bottom-right'
+                ? {
+                    right: '0',
+                  }
+                : {
+                    left: '0',
+                  }),
               ...closeButtonStyle,
             }}
           >
@@ -145,6 +162,25 @@ export function ReactQueryDevtools({
             fontSize: '1.5rem',
             margin: '.5rem',
             cursor: 'pointer',
+            ...(position === 'top-right'
+              ? {
+                  top: '0',
+                  right: '0',
+                }
+              : position === 'top-left'
+              ? {
+                  top: '0',
+                  left: '0',
+                }
+              : position === 'bottom-right'
+              ? {
+                  bottom: '0',
+                  right: '0',
+                }
+              : {
+                  bottom: '0',
+                  left: '0',
+                }),
             ...toggleButtonStyle,
           }}
         >
@@ -260,8 +296,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         <Panel ref={ref} className="ReactQueryDevtoolsPanel" {...props}>
           <div
             style={{
-              flex: '1 1 50%',
-              minHeight: '33%',
+              flex: '1 1 500px',
+              minHeight: '40%',
               overflow: 'auto',
               borderRight: `1px solid ${theme.grayAlt}`,
               display: 'flex',
@@ -277,21 +313,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 alignItems: 'center',
               }}
             >
-              <div
-                style={{
-                  fontSize: '1.2rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <div
-                  style={{
-                    marginBottom: '.5rem',
-                    opacity: 0.3,
-                  }}
-                >
-                  React Query Devtools
-                </div>
+              <QueryCountStyles>
                 <div
                   style={{
                     fontWeight: 'bold',
@@ -299,7 +321,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 >
                   Queries ({queries.length})
                 </div>
-              </div>
+              </QueryCountStyles>
               <div
                 style={{
                   display: 'flex',
@@ -365,6 +387,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                     onChange={e => setSort(e.target.value)}
                     style={{
                       flex: '1',
+                      minWidth: 75,
                       marginRight: '.5rem',
                     }}
                   >
@@ -445,10 +468,11 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
           {activeQuery ? (
             <div
               style={{
-                flex: '1 1 50%',
+                flex: '1 1 500px',
                 display: 'flex',
                 flexDirection: 'column',
                 overflow: 'auto',
+                height: '100%',
               }}
             >
               <div

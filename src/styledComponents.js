@@ -3,15 +3,16 @@ import { styled } from './utils'
 export const Panel = styled(
   'div',
   (props, theme) => ({
-    fontSize: 'clamp(12px, 1.5vw, 16px)',
+    fontSize: 'clamp(12px, 1.5vw, 14px)',
     display: 'flex',
+    flexWrap: 'wrap',
     backgroundColor: theme.background,
     color: theme.foreground,
   }),
   {
     '(max-width: 600px)': {
       fontSize: '.9rem',
-      flexDirection: 'column',
+      // flexDirection: 'column',
     },
   }
 )
@@ -54,21 +55,43 @@ export const Input = styled('input', {
   padding: '.3em .4em',
 })
 
-export const Select = styled('select', {
-  display: `inline-block`,
-  fontSize: `.9em`,
-  fontFamily: `sans-serif`,
-  fontWeight: 'normal',
-  lineHeight: `1.3`,
-  padding: `.3em 1.5em .3em .5em`,
-  height: 'auto',
-  border: 0,
-  borderRadius: `.2em`,
-  appearance: `none`,
-  WebkitAppearance: 'none',
-  backgroundColor: `#fff`,
-  backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23444444'><polygon points='0,25 100,25 50,75'/></svg>")`,
-  backgroundRepeat: `no-repeat`,
-  backgroundPosition: `right .55em center`,
-  backgroundSize: `.65em auto, 100%`,
-})
+export const Select = styled(
+  'select',
+  {
+    display: `inline-block`,
+    fontSize: `.9em`,
+    fontFamily: `sans-serif`,
+    fontWeight: 'normal',
+    lineHeight: `1.3`,
+    padding: `.3em 1.5em .3em .5em`,
+    height: 'auto',
+    border: 0,
+    borderRadius: `.2em`,
+    appearance: `none`,
+    WebkitAppearance: 'none',
+    backgroundColor: `#fff`,
+    backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23444444'><polygon points='0,25 100,25 50,75'/></svg>")`,
+    backgroundRepeat: `no-repeat`,
+    backgroundPosition: `right .55em center`,
+    backgroundSize: `.65em auto, 100%`,
+  },
+  {
+    '(max-width: 500px)': {
+      display: 'none',
+    },
+  }
+)
+
+export const QueryCountStyles = styled(
+  'div',
+  {
+    fontSize: '1.2rem',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  {
+    '(max-width: 500px)': {
+      display: 'none',
+    },
+  }
+)
