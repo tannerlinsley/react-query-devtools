@@ -1,4 +1,4 @@
-![React Query Devtools Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/header.png)
+![React Query Devtools Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/repo-dark.png)
 
 Devtools for [React Query](https://github.com/tannerlinsley/react-query)
 
