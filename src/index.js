@@ -146,6 +146,7 @@ export function ReactQueryDevtools({
       ) : (
         <button
           {...otherToggleButtonProps}
+          aria-label="Open React Query Devtools"
           onClick={() => {
             setIsOpen(true)
             onToggleClick && onToggleClick()
@@ -184,11 +185,7 @@ export function ReactQueryDevtools({
             ...toggleButtonStyle,
           }}
         >
-          <Logo
-            width="1.5em"
-            height="1.5em"
-            aria-label="Open React Query Devtools"
-          />
+          <Logo aria-hidden />
         </button>
       )}
     </div>

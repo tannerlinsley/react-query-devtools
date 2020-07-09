@@ -2,7 +2,13 @@ import * as React from 'react'
 
 export default function Logo(props) {
   return (
-    <svg width="40px" height="40px" viewBox="0 0 190 190" version="1.1">
+    <svg
+      width="40px"
+      height="40px"
+      viewBox="0 0 190 190"
+      version="1.1"
+      {...props}
+    >
       <g
         id="Page-1"
         stroke="none"
