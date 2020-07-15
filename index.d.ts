@@ -24,6 +24,11 @@ export function ReactQueryDevtools(props: {
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   >
+  /**
+   * The position of the React Query logo to open and close the devtools panel.
+   * Defaults to 'bottom-left'.
+   */
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 }): React.ReactElement
 
 export function ReactQueryDevtoolsPanel(props: {
