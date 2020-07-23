@@ -295,6 +295,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
             style={{
               flex: '1 1 500px',
               minHeight: '40%',
+              maxHeight: '100%',
               overflow: 'auto',
               borderRight: `1px solid ${theme.grayAlt}`,
               display: 'flex',
@@ -407,7 +408,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
             </div>
             <div
               style={{
-                overflow: 'auto',
+                overflow: 'auto scroll',
               }}
             >
               {queries.map((query, i) => (
