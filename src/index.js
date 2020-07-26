@@ -448,7 +448,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       padding: '.2rem .4rem',
                     }}
                   >
-                    {sortDesc ? 'â¬‡ Desc' : 'â¬† Asc'}
+                    {sortDesc ? '⬇ Desc' : '⬆ Asc'}
                   </Button>
                 </div>
               </div>
