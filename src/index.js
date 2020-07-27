@@ -239,7 +239,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       if (isDragging) {
         const run = e => {
           const containerHeight = window.innerHeight - e.pageY
-          console.log(containerHeight)
+
           if (containerHeight < 70) {
             setIsOpen(false)
           } else {
