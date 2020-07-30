@@ -337,6 +337,20 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         <Panel ref={ref} className="ReactQueryDevtoolsPanel" {...panelProps}>
           <div
             style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '4px',
+              marginBottom: '-4px',
+              cursor: 'row-resize',
+              zIndex: 100000,
+            }}
+            onMouseDown={handleDragStart}
+            onMouseUp={handleDragEnd}
+          ></div>
+          <div
+            style={{
               flex: '1 1 500px',
               minHeight: '40%',
               maxHeight: '100%',
@@ -346,18 +360,6 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               flexDirection: 'column',
             }}
           >
-            <div
-              style={{
-                left: 0,
-                width: '100%',
-                height: '4px',
-                marginBottom: '-4px',
-                cursor: 'row-resize',
-                zIndex: 100000,
-              }}
-              onMouseDown={handleDragStart}
-              onMouseUp={handleDragEnd}
-            ></div>
             <div
               style={{
                 padding: '.5rem',
