@@ -38,6 +38,19 @@ const theme = {
   warning: '#ffb200',
 }
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet()
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return
+      }
+      seen.add(value)
+    }
+    return value
+  }
+}
+
 export function ReactQueryDevtools({
   initialIsOpen,
   panelProps = {},
@@ -259,11 +272,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       return [
         activeQuery,
         activeQuery
-          ? JSON.parse(
-              JSON.stringify(activeQuery, (key, value) =>
-                key === 'cache' ? undefined : value
-              )
-            )
+          ? JSON.parse(JSON.stringify(activeQuery, getCircularReplacer()))
           : null,
       ]
     }, [activeQueryHash, queries])
@@ -513,83 +522,76 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               </div>
               <div
                 style={{
-                  flex: '1',
-                  overflow: 'auto',
+                  background: theme.backgroundAlt,
+                  padding: '.5rem',
                 }}
               >
-                <div
+                Actions
+              </div>
+              <div
+                style={{
+                  padding: '1rem',
+                }}
+              >
+                <Button
+                  onClick={() => activeQuery.fetch()}
+                  disabled={activeQuery.state.isFetching}
                   style={{
-                    background: theme.backgroundAlt,
-                    padding: '.5rem',
+                    background: theme.active,
                   }}
                 >
-                  Actions
-                </div>
-                <div
+                  Refetch
+                </Button>{' '}
+                <Button
+                  onClick={() =>
+                    queryCache.removeQueries(q => q === activeQuery)
+                  }
                   style={{
-                    padding: '1rem',
+                    background: theme.danger,
                   }}
                 >
-                  <Button
-                    onClick={() => activeQuery.fetch()}
-                    disabled={activeQuery.state.isFetching}
-                    style={{
-                      background: theme.active,
-                    }}
-                  >
-                    Refetch
-                  </Button>{' '}
-                  <Button
-                    onClick={() =>
-                      queryCache.removeQueries(q => q === activeQuery)
-                    }
-                    style={{
-                      background: theme.danger,
-                    }}
-                  >
-                    Remove
-                  </Button>{' '}
-                </div>
-                <div
-                  style={{
-                    background: theme.backgroundAlt,
-                    padding: '.5rem',
+                  Remove
+                </Button>{' '}
+              </div>
+              <div
+                style={{
+                  background: theme.backgroundAlt,
+                  padding: '.5rem',
+                }}
+              >
+                Data Explorer
+              </div>
+              <div
+                style={{
+                  padding: '.5rem',
+                }}
+              >
+                <Explorer
+                  label="Data"
+                  value={activeQueryJson.state.data}
+                  defaultExpanded={{}}
+                />
+              </div>
+              <div
+                style={{
+                  background: theme.backgroundAlt,
+                  padding: '.5rem',
+                }}
+              >
+                Query Explorer
+              </div>
+              <div
+                style={{
+                  padding: '.5rem',
+                }}
+              >
+                <Explorer
+                  label="Query"
+                  value={activeQueryJson}
+                  defaultExpanded={{
+                    queryKey: true,
                   }}
-                >
-                  Data Explorer
-                </div>
-                <div
-                  style={{
-                    padding: '.5rem',
-                  }}
-                >
-                  <Explorer
-                    label="Data"
-                    value={activeQueryJson.state.data}
-                    defaultExpanded={{}}
-                  />
-                </div>
-                <div
-                  style={{
-                    background: theme.backgroundAlt,
-                    padding: '.5rem',
-                  }}
-                >
-                  Query Explorer
-                </div>
-                <div
-                  style={{
-                    padding: '.5rem',
-                  }}
-                >
-                  <Explorer
-                    label="Query"
-                    value={activeQueryJson}
-                    defaultExpanded={{
-                      queryKey: true,
-                    }}
-                  />
-                </div>
+                />
               </div>
             </div>
           ) : null}
