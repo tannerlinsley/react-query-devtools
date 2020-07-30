@@ -118,11 +118,12 @@ export function ReactQueryDevtools({
               zIndex: '99999',
               width: '100%',
               height: '500px',
-              maxHeight: '50%',
+              maxHeight: '90%',
               boxShadow: '0 0 20px rgba(0,0,0,.3)',
               borderTop: `1px solid ${theme.gray}`,
               ...panelStyle,
             }}
+            setIsOpen={setIsOpen}
           />
           <Button
             {...otherCloseButtonProps}
@@ -159,6 +160,7 @@ export function ReactQueryDevtools({
       ) : (
         <button
           {...otherToggleButtonProps}
+          aria-label="Open React Query Devtools"
           onClick={() => {
             setIsOpen(true)
             onToggleClick && onToggleClick()
@@ -197,11 +199,7 @@ export function ReactQueryDevtools({
             ...toggleButtonStyle,
           }}
         >
-          <Logo
-            width="1.5em"
-            height="1.5em"
-            aria-label="Open React Query Devtools"
-          />
+          <Logo aria-hidden />
         </button>
       )}
     </div>
@@ -224,6 +222,8 @@ const sortFns = {
 
 export const ReactQueryDevtoolsPanel = React.forwardRef(
   function ReactQueryDevtoolsPanel(props, ref) {
+    const { setIsOpen, ...panelProps } = props
+
     const queryCache = useQueryCache ? useQueryCache() : cache
 
     const [sort, setSort] = useLocalStorage(
@@ -238,6 +238,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       false
     )
 
+    const [isDragging, setIsDragging] = React.useState(false)
+
     const sortFn = React.useMemo(() => sortFns[sort], [sort])
 
     React[isServer ? 'useEffect' : 'useLayoutEffect'](() => {
@@ -245,6 +247,36 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         setSort(Object.keys(sortFns)[0])
       }
     }, [setSort, sortFn])
+
+    React[isServer ? 'useEffect' : 'useLayoutEffect'](() => {
+      if (isDragging) {
+        const run = e => {
+          const containerHeight = window.innerHeight - e.pageY
+
+          if (containerHeight < 70) {
+            setIsOpen(false)
+          } else {
+            ref.current.style.height = `${containerHeight}px`
+          }
+        }
+        document.addEventListener('mousemove', run)
+        document.addEventListener('mouseup', handleDragEnd)
+
+        return () => {
+          document.removeEventListener('mousemove', run)
+          document.removeEventListener('mouseup', handleDragEnd)
+        }
+      }
+    }, [isDragging])
+
+    const handleDragStart = e => {
+      if (e.button !== 0) return // Only allow left click for drag
+      setIsDragging(true)
+    }
+
+    const handleDragEnd = e => {
+      setIsDragging(false)
+    }
 
     const [unsortedQueries, setUnsortedQueries] = React.useState(
       Object.values(queryCache.queries)
@@ -302,17 +334,30 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
     return (
       <ThemeProvider theme={theme}>
-        <Panel ref={ref} className="ReactQueryDevtoolsPanel" {...props}>
+        <Panel ref={ref} className="ReactQueryDevtoolsPanel" {...panelProps}>
           <div
             style={{
               flex: '1 1 500px',
               minHeight: '40%',
+              maxHeight: '100%',
               overflow: 'auto',
               borderRight: `1px solid ${theme.grayAlt}`,
               display: 'flex',
               flexDirection: 'column',
             }}
           >
+            <div
+              style={{
+                left: 0,
+                width: '100%',
+                height: '4px',
+                marginBottom: '-4px',
+                cursor: 'row-resize',
+                zIndex: 100000,
+              }}
+              onMouseDown={handleDragStart}
+              onMouseUp={handleDragEnd}
+            ></div>
             <div
               style={{
                 padding: '.5rem',
@@ -419,7 +464,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
             </div>
             <div
               style={{
-                overflow: 'auto',
+                overflow: 'auto scroll',
               }}
             >
               {queries.map((query, i) => (
