@@ -32,6 +32,8 @@ const theme = {
   foreground: 'white',
   gray: '#3f4e60',
   grayAlt: '#222e3e',
+  inputBackgroundColor: '#fff',
+  inputTextColor: '#000',
   success: '#00ab52',
   danger: '#ff0085',
   active: '#006bff',
