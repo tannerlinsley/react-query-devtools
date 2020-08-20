@@ -67,16 +67,19 @@ export const Code = styled('code', {
   fontSize: '.9em',
 })
 
-export const Input = styled('input', {
+export const Input = styled('input', (props, theme) => ({
+  backgroundColor: theme.inputBackgroundColor,
   border: 0,
   borderRadius: '.2em',
+  color: theme.inputTextColor,
   fontSize: '.9em',
+  lineHeight: `1.3`,
   padding: '.3em .4em',
-})
+}))
 
 export const Select = styled(
   'select',
-  {
+  (props, theme) => ({
     display: `inline-block`,
     fontSize: `.9em`,
     fontFamily: `sans-serif`,
@@ -88,12 +91,13 @@ export const Select = styled(
     borderRadius: `.2em`,
     appearance: `none`,
     WebkitAppearance: 'none',
-    backgroundColor: `#fff`,
+    backgroundColor: theme.inputBackgroundColor,
     backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23444444'><polygon points='0,25 100,25 50,75'/></svg>")`,
     backgroundRepeat: `no-repeat`,
     backgroundPosition: `right .55em center`,
     backgroundSize: `.65em auto, 100%`,
-  },
+    color: theme.inputTextColor,
+  }),
   {
     '(max-width: 500px)': {
       display: 'none',
