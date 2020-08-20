@@ -12,13 +12,13 @@ export function getQueryStatusColor(query, theme) {
 }
 
 export function getQueryOpacity(query) {
-  return !query.instances.length ? 0.3 : 1
+  return !query.observers.length ? 0.3 : 1
 }
 
 export function getQueryStatusLabel(query) {
   return query.state.isFetching
     ? 'fetching'
-    : !query.instances.length
+    : !query.observers.length
     ? 'inactive'
     : query.state.isStale
     ? 'stale'

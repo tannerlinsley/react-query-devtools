@@ -112,6 +112,7 @@ export default function Explorer({
   defaultExpanded,
   renderer = DefaultRenderer,
   pageSize = 100,
+  depth = 0,
   ...rest
 }) {
   const [expanded, setExpanded] = React.useState(defaultExpanded)
@@ -121,7 +122,6 @@ export default function Explorer({
   }
 
   const path = []
-  const depth = 0
 
   let type = typeof value
   let subEntries

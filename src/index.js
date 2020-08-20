@@ -14,6 +14,7 @@ import {
   Input,
   Select,
   QueryCountStyles,
+  ActiveQueryPanel,
 } from './styledComponents'
 import { ThemeProvider } from './theme'
 import {
@@ -207,7 +208,7 @@ export function ReactQueryDevtools({
 }
 
 const getStatusRank = q =>
-  q.state.isFetching ? 0 : !q.instances.length ? 3 : q.state.isStale ? 2 : 1
+  q.state.isFetching ? 0 : !q.observers.length ? 3 : q.state.isStale ? 2 : 1
 
 const sortFns = {
   'Status > Last Updated': (a, b) =>
@@ -282,7 +283,10 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       Object.values(queryCache.queries)
     )
 
-    const [activeQueryHash, setActiveQueryHash] = React.useState(null)
+    const [activeQueryHash, setActiveQueryHash] = useLocalStorage(
+      'reactQueryDevtoolsActiveQueryHash',
+      ''
+    )
 
     const queries = React.useMemo(() => {
       const sorted = [...unsortedQueries].sort(sortFn)
@@ -296,17 +300,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       )
     }, [sortDesc, sortFn, unsortedQueries, filter])
 
-    const [activeQuery, activeQueryJson] = React.useMemo(() => {
-      const activeQuery = queries.find(
-        query => query.queryHash === activeQueryHash
-      )
-
-      return [
-        activeQuery,
-        activeQuery
-          ? JSON.parse(JSON.stringify(activeQuery, getCircularReplacer()))
-          : null,
-      ]
+    const activeQuery = React.useMemo(() => {
+      return queries.find(query => query.queryHash === activeQueryHash)
     }, [activeQueryHash, queries])
 
     const hasFresh = queries.filter(q => getQueryStatusLabel(q) === 'fresh')
@@ -325,12 +320,6 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
         setUnsortedQueries(Object.values(queryCache.queries))
       })
     }, [sort, sortFn, sortDesc, queryCache])
-
-    React.useEffect(() => {
-      if (activeQueryHash && !activeQuery) {
-        setActiveQueryHash(null)
-      }
-    }, [activeQuery, activeQueryHash])
 
     return (
       <ThemeProvider theme={theme}>
@@ -508,7 +497,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                           : 'white',
                     }}
                   >
-                    {query.instances.length}
+                    {query.observers.length}
                   </div>
                   <Code
                     style={{
@@ -522,55 +511,72 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
             </div>
           </div>
           {activeQuery ? (
-            <div
-              style={{
-                flex: '1 1 500px',
-                display: 'flex',
-                flexDirection: 'column',
-                overflow: 'auto',
-                height: '100%',
-              }}
-            >
+            <ActiveQueryPanel>
               <div
                 style={{
                   padding: '.5rem',
                   background: theme.backgroundAlt,
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1,
                 }}
               >
                 Query Details
               </div>
               <div
                 style={{
-                  padding: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
+                  padding: '.5rem 0',
                 }}
               >
-                <Code
+                <div
                   style={{
-                    lineHeight: '1.8rem',
+                    padding: '.5rem 1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  {activeQuery.queryHash}
-                </Code>
-                <span
+                  <Code
+                    style={{
+                      lineHeight: '1.8rem',
+                    }}
+                  >
+                    {activeQuery.queryHash}
+                  </Code>
+                  <span
+                    style={{
+                      padding: '0.3rem .6rem',
+                      borderRadius: '0.4rem',
+                      fontWeight: 'bold',
+                      textShadow: '0 2px 10px black',
+                      background: getQueryStatusColor(activeQuery, theme),
+                      flexShrink: 0,
+                    }}
+                  >
+                    {getQueryStatusLabel(activeQuery)}
+                  </span>
+                </div>
+                <div
                   style={{
-                    padding: '0.3rem .6rem',
-                    borderRadius: '0.4rem',
-                    fontWeight: 'bold',
-                    textShadow: '0 2px 10px black',
-                    background: getQueryStatusColor(activeQuery, theme),
-                    flexShrink: 0,
+                    padding: '.5rem 1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  {getQueryStatusLabel(activeQuery)}
-                </span>
+                  Last Updated:{' '}
+                  <Code>
+                    {new Date(activeQuery.state.updatedAt).toLocaleTimeString()}
+                  </Code>
+                </div>
               </div>
               <div
                 style={{
                   background: theme.backgroundAlt,
                   padding: '.5rem',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1,
                 }}
               >
                 Actions
@@ -604,6 +610,9 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 style={{
                   background: theme.backgroundAlt,
                   padding: '.5rem',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1,
                 }}
               >
                 Data Explorer
@@ -615,7 +624,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               >
                 <Explorer
                   label="Data"
-                  value={activeQueryJson.state.data}
+                  value={activeQuery?.state?.data}
                   defaultExpanded={{}}
                 />
               </div>
@@ -623,6 +632,9 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 style={{
                   background: theme.backgroundAlt,
                   padding: '.5rem',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1,
                 }}
               >
                 Query Explorer
@@ -634,13 +646,13 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
               >
                 <Explorer
                   label="Query"
-                  value={activeQueryJson}
+                  value={activeQuery}
                   defaultExpanded={{
                     queryKey: true,
                   }}
                 />
               </div>
-            </div>
+            </ActiveQueryPanel>
           ) : null}
         </Panel>
       </ThemeProvider>

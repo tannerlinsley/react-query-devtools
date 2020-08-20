@@ -4,16 +4,35 @@ export const Panel = styled(
   'div',
   (props, theme) => ({
     fontSize: 'clamp(12px, 1.5vw, 14px)',
+    fontFamily: `sans-serif`,
     display: 'flex',
-    flexWrap: 'wrap',
     backgroundColor: theme.background,
     color: theme.foreground,
   }),
   {
+    '(max-width: 700px)': {
+      flexDirection: 'column',
+    },
     '(max-width: 600px)': {
       fontSize: '.9rem',
       // flexDirection: 'column',
     },
+  }
+)
+
+export const ActiveQueryPanel = styled(
+  'div',
+  (props, theme) => ({
+    flex: '1 1 500px',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+    height: '100%',
+  }),
+  {
+    '(max-width: 700px)': (props, theme) => ({
+      borderTop: `2px solid ${theme.gray}`,
+    }),
   }
 )
 
