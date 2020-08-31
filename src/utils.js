@@ -3,6 +3,8 @@ import React from 'react'
 import { useTheme } from './theme'
 import useMediaQuery from './useMediaQuery'
 
+export const isServer = typeof window === 'undefined'
+
 export function getQueryStatusColor(query, theme) {
   return query.state.isFetching
     ? theme.active
@@ -53,4 +55,55 @@ export function styled(type, newStyles, queries = {}) {
       ref,
     })
   })
+}
+
+function useIsMounted() {
+  const mountedRef = React.useRef(false)
+  const isMounted = React.useCallback(() => mountedRef.current, [])
+
+  React[isServer ? 'useEffect' : 'useLayoutEffect'](() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
+
+  return isMounted
+}
+
+/**
+ * This hook is a safe useState version which schedules state updates in microtasks
+ * to prevent updating a component state while React is rendering different components
+ * or when the component is not mounted anymore.
+ */
+export function useSafeState(initialState) {
+  const isMounted = useIsMounted()
+  const [state, setState] = React.useState(initialState)
+
+  const safeSetState = React.useCallback(
+    value => {
+      scheduleMicrotask(() => {
+        if (isMounted()) {
+          setState(value)
+        }
+      })
+    },
+    [isMounted]
+  )
+
+  return [state, safeSetState]
+}
+
+/**
+ * Schedules a microtask.
+ * This can be useful to schedule state updates after rendering.
+ */
+function scheduleMicrotask(callback) {
+  Promise.resolve()
+    .then(callback)
+    .catch(error =>
+      setTimeout(() => {
+        throw error
+      })
+    )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import match from 'match-sorter'
 import { queryCache as cache, useQueryCache } from 'react-query'
 import useLocalStorage from './useLocalStorage'
+import { useSafeState } from './utils'
 
 //
 
@@ -67,11 +68,11 @@ export function ReactQueryDevtools({
     'reactQueryDevtoolsOpen',
     initialIsOpen
   )
-  const [isResolvedOpen, setIsResolvedOpen] = React.useState(false)
+  const [isResolvedOpen, setIsResolvedOpen] = useSafeState(false)
 
   React.useEffect(() => {
     setIsResolvedOpen(isOpen)
-  }, [isOpen, isResolvedOpen])
+  }, [isOpen, isResolvedOpen, setIsResolvedOpen])
 
   React[isServer ? 'useEffect' : 'useLayoutEffect'](() => {
     if (isResolvedOpen) {
@@ -241,7 +242,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       false
     )
 
-    const [isDragging, setIsDragging] = React.useState(false)
+    const [isDragging, setIsDragging] = useSafeState(false)
 
     const sortFn = React.useMemo(() => sortFns[sort], [sort])
 
@@ -281,7 +282,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       setIsDragging(false)
     }
 
-    const [unsortedQueries, setUnsortedQueries] = React.useState(
+    const [unsortedQueries, setUnsortedQueries] = useSafeState(
       Object.values(queryCache.queries)
     )
 
@@ -321,7 +322,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
       return queryCache.subscribe(queryCache => {
         setUnsortedQueries(Object.values(queryCache.queries))
       })
-    }, [sort, sortFn, sortDesc, queryCache])
+    }, [sort, sortFn, sortDesc, queryCache, setUnsortedQueries])
 
     return (
       <ThemeProvider theme={theme}>
