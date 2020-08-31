@@ -4,8 +4,6 @@ import { queryCache as cache, useQueryCache } from 'react-query'
 import useLocalStorage from './useLocalStorage'
 import { useSafeState } from './utils'
 
-//
-
 import {
   Panel,
   QueryKeys,
@@ -40,19 +38,6 @@ const theme = {
   danger: '#ff0085',
   active: '#006bff',
   warning: '#ffb200',
-}
-
-const getCircularReplacer = () => {
-  const seen = new WeakSet()
-  return (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return
-      }
-      seen.add(value)
-    }
-    return value
-  }
 }
 
 export function ReactQueryDevtools({
