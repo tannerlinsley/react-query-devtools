@@ -8,7 +8,7 @@ export const isServer = typeof window === 'undefined'
 export function getQueryStatusColor(query, theme) {
   return query.state.isFetching
     ? theme.active
-    : query.state.isStale
+    : query.isStale()
     ? theme.warning
     : theme.success
 }
@@ -22,7 +22,7 @@ export function getQueryStatusLabel(query) {
     ? 'fetching'
     : !query.observers.length
     ? 'inactive'
-    : query.state.isStale
+    : query.isStale()
     ? 'stale'
     : 'fresh'
 }
