@@ -196,7 +196,7 @@ export function ReactQueryDevtools({
 }
 
 const getStatusRank = q =>
-  q.state.isFetching ? 0 : !q.observers.length ? 3 : q.state.isStale ? 2 : 1
+  q.state.isFetching ? 0 : !q.observers.length ? 3 : q.isStale() ? 2 : 1
 
 const sortFns = {
   'Status > Last Updated': (a, b) =>
