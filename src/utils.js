@@ -5,10 +5,16 @@ import useMediaQuery from './useMediaQuery'
 
 export const isServer = typeof window === 'undefined'
 
+export function isStale(query) {
+  return typeof query.isStale === 'function'
+    ? query.isStale()
+    : query.state.isStale
+}
+
 export function getQueryStatusColor(query, theme) {
   return query.state.isFetching
     ? theme.active
-    : query.isStale()
+    : isStale(query)
     ? theme.warning
     : theme.success
 }
@@ -22,7 +28,7 @@ export function getQueryStatusLabel(query) {
     ? 'fetching'
     : !query.observers.length
     ? 'inactive'
-    : query.isStale()
+    : isStale(query)
     ? 'stale'
     : 'fresh'
 }
