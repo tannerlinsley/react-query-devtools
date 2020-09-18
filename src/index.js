@@ -520,7 +520,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                   style={{
                     padding: '.5rem 1rem',
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'stretch',
                     justifyContent: 'space-between',
                   }}
                 >
@@ -529,7 +529,14 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       lineHeight: '1.8rem',
                     }}
                   >
-                    {activeQuery.queryHash}
+                    <pre
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                      }}
+                    >
+                      {JSON.stringify(activeQuery.queryKey, null, 2)}
+                    </pre>
                   </Code>
                   <span
                     style={{
@@ -539,6 +546,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                       textShadow: '0 2px 10px black',
                       background: getQueryStatusColor(activeQuery, theme),
                       flexShrink: 0,
+                      opacity: getQueryOpacity(activeQuery),
                     }}
                   >
                     {getQueryStatusLabel(activeQuery)}
