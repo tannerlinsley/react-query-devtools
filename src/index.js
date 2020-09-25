@@ -166,6 +166,7 @@ export function ReactQueryDevtools({
             fontSize: '1.5rem',
             margin: '.5rem',
             cursor: 'pointer',
+            width: 'fit-content',
             ...(position === 'top-right'
               ? {
                   top: '0',
