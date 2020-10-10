@@ -49,6 +49,7 @@ const DefaultRenderer = ({
   // path,
   subEntries,
   subEntryPages,
+  type,
   // depth,
   expanded,
   toggle,
@@ -62,7 +63,10 @@ const DefaultRenderer = ({
         <>
           <Label onClick={() => toggle()}>
             <Expander expanded={expanded} /> {label}{' '}
-            <Info>{subEntries.length} items</Info>
+            <Info>
+              {String(type).toLowerCase() === 'iterable' ? '(Iterable) ' : ''}
+              {subEntries.length} items
+            </Info>
           </Label>
           {expanded ? (
             subEntryPages.length === 1 ? (
@@ -100,7 +104,7 @@ const DefaultRenderer = ({
         </>
       ) : (
         <>
-          <Label>{label}:</Label> <Value>{JSON.stringify(value)}</Value>
+          <Label>{label}:</Label> <Value>{JSON.stringify(value, Object.getOwnPropertyNames(Object(value)))}</Value>
         </>
       )}
     </Entry>
@@ -147,6 +151,18 @@ export default function Explorer({
       makeProperty({
         label: i,
         value: d,
+      })
+    )
+  } else if (
+    value !== null &&
+    typeof value === 'object' &&
+    typeof value[Symbol.iterator] === 'function'
+  ) {
+    type = 'Iterable'
+    subEntries = Array.from(value, (val, i) =>
+      makeProperty({
+        label: i,
+        value: val,
       })
     )
   } else if (typeof value === 'object' && value !== null) {
