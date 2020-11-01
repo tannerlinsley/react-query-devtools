@@ -65,7 +65,7 @@ const DefaultRenderer = ({
             <Expander expanded={expanded} /> {label}{' '}
             <Info>
               {String(type).toLowerCase() === 'iterable' ? '(Iterable) ' : ''}
-              {subEntries.length} items
+              {subEntries.length} {subEntries.length > 1 ? `items` : `item`}
             </Info>
           </Label>
           {expanded ? (
@@ -104,7 +104,10 @@ const DefaultRenderer = ({
         </>
       ) : (
         <>
-          <Label>{label}:</Label> <Value>{JSON.stringify(value, Object.getOwnPropertyNames(Object(value)))}</Value>
+          <Label>{label}:</Label>{' '}
+          <Value>
+            {JSON.stringify(value, Object.getOwnPropertyNames(Object(value)))}
+          </Value>
         </>
       )}
     </Entry>
