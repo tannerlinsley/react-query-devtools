@@ -29,6 +29,12 @@ export function ReactQueryDevtools(props: {
    * Defaults to 'bottom-left'.
    */
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+  /**
+   * Use this to render the devtools inside a different type of container element for a11y purposes.
+   * Any string which corresponds to a valid intrinsic JSX element is allowed.
+   * Defaults to 'footer'.
+   */
+  containerElement?: keyof JSX.IntrinsicElements
 }): React.ReactElement
 
 export function ReactQueryDevtoolsPanel(props: {
