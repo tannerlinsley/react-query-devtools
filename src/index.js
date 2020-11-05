@@ -46,6 +46,7 @@ export function ReactQueryDevtools({
   closeButtonProps = {},
   toggleButtonProps = {},
   position = 'bottom-left',
+  containerElement: Container = 'footer',
 }) {
   const rootRef = React.useRef()
   const panelRef = React.useRef()
@@ -94,7 +95,7 @@ export function ReactQueryDevtools({
   } = toggleButtonProps
 
   return (
-    <div ref={rootRef} className="ReactQueryDevtools">
+    <Container ref={rootRef} className="ReactQueryDevtools">
       {isResolvedOpen ? (
         <ThemeProvider theme={theme}>
           <ReactQueryDevtoolsPanel
@@ -192,7 +193,7 @@ export function ReactQueryDevtools({
           <Logo aria-hidden />
         </button>
       )}
-    </div>
+    </Container>
   )
 }
 
