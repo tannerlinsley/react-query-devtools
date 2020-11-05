@@ -30,7 +30,7 @@
     "match-sorter": "^4.1.0"
   },
   "peerDependencies": {
-    "react": "^16.6.3",
+    "react": "^16.6.3 || ^17.0.0",
     "react-query": "^2.0.0"
   },
   "devDependencies": {
