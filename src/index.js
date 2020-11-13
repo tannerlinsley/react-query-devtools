@@ -1,6 +1,6 @@
 import React from 'react'
 import match from 'match-sorter'
-import { queryCache as cache, useQueryCache } from 'react-query'
+import { useQueryClient } from 'react-query'
 import useLocalStorage from './useLocalStorage'
 import { useSafeState, isStale } from './utils'
 
@@ -215,7 +215,8 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
   function ReactQueryDevtoolsPanel(props, ref) {
     const { setIsOpen, ...panelProps } = props
 
-    const queryCache = useQueryCache ? useQueryCache() : cache
+    const queryClient = useQueryClient()
+    const queryCache = queryClient.getQueryCache()
 
     const [sort, setSort] = useLocalStorage(
       'reactQueryDevtoolsSortFn',
@@ -270,7 +271,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
     }
 
     const [unsortedQueries, setUnsortedQueries] = useSafeState(
-      Object.values(queryCache.queries)
+      Object.values(queryCache.getAll())
     )
 
     const [activeQueryHash, setActiveQueryHash] = useLocalStorage(
@@ -307,7 +308,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
 
     React.useEffect(() => {
       return queryCache.subscribe(queryCache => {
-        setUnsortedQueries(Object.values(queryCache.queries))
+        setUnsortedQueries(Object.values(queryCache.getAll()))
       })
     }, [sort, sortFn, sortDesc, queryCache, setUnsortedQueries])
 
@@ -595,7 +596,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 </Button>{' '}
                 <Button
                   onClick={() =>
-                    queryCache.removeQueries(q => q === activeQuery)
+                    queryClient.removeQueries(q => q === activeQuery)
                   }
                   style={{
                     background: theme.danger,
