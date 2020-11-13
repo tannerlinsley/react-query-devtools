@@ -596,7 +596,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 </Button>{' '}
                 <Button
                   onClick={() =>
-                    queryClient.removeQueries(q => q === activeQuery)
+                    queryCache.remove(activeQuery)
                   }
                   style={{
                     background: theme.danger,
