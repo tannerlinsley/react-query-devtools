@@ -307,7 +307,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
     ).length
 
     React.useEffect(() => {
-      return queryCache.subscribe(queryCache => {
+      return queryCache.subscribe(() => {
         setUnsortedQueries(Object.values(queryCache.getAll()))
       })
     }, [sort, sortFn, sortDesc, queryCache, setUnsortedQueries])
