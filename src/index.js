@@ -565,7 +565,7 @@ export const ReactQueryDevtoolsPanel = React.forwardRef(
                 >
                   Last Updated:{' '}
                   <Code>
-                    {new Date(activeQuery.state.updatedAt).toLocaleTimeString()}
+                    {new Date(activeQuery.state.dataUpdatedAt).toLocaleTimeString()}
                   </Code>
                 </div>
               </div>
