@@ -1,33 +1,6 @@
-![React Query Devtools Header](https://github.com/tannerlinsley/react-query-devtools/raw/master/media/repo-dark.png)
+# DEPRECATED
 
-Devtools for [React Query](https://github.com/tannerlinsley/react-query)
-
-<!-- <a href="https://travis-ci.org/tannerlinsley/react-query" target="\_parent">
-  <img alt="" src="https://travis-ci.org/tannerlinsley/react-query.svg?branch=master" />
-</a> -->
-<a href="https://twitter.com/intent/tweet?button_hashtag=TanStack" target="\_parent">
-  <img alt="#TanStack" src="https://img.shields.io/twitter/url?color=%2308a0e9&label=%23TanStack&style=social&url=https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Fbutton_hashtag%3DTanStack">
-</a><a href="https://bundlephobia.com/result?p=react-query-devtools@latest" target="\_parent">
-  <img alt="" src="https://badgen.net/bundlephobia/minzip/react-query-devtools@latest" />
-</a><a href="https://spectrum.chat/react-query">
-  <img alt="Join the community on Spectrum" src="https://withspectrum.github.io/badge/badge.svg" />
-</a><a href="https://github.com/tannerlinsley/react-query-devtools" target="\_parent">
-  <img alt="" src="https://img.shields.io/github/stars/tannerlinsley/react-query-devtools.svg?style=social&label=Star" />
-</a><a href="https://twitter.com/tannerlinsley" target="\_parent">
-  <img alt="" src="https://img.shields.io/twitter/follow/tannerlinsley.svg?style=social&label=Follow" />
-</a>
-
-Enjoy this library? Try them all! [React Query](https://github.com/tannerlinsley/react-query), [React Table](https://github.com/tannerlinsley/react-table), [React Form](https://github.com/tannerlinsley/react-form), [React Charts](https://github.com/tannerlinsley/react-charts)
-
-## Quick Features
-
-- View the cache in realtime
-- Inspect core query objects and query data payloads
-- Manually refetch & remove queries
-
-# Demo
-
-- [React Query Playground Example](https://codesandbox.io/s/github/tannerlinsley/react-query/tree/master/examples/playground)
+This repo and package has been deprecated in favor of the new [built-in devtools](https://react-query.tanstack.com/devtools) that ship with React Query v3. This repo will remain here for people still using v2.
 
 # Documentation
 
